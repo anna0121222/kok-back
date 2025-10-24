@@ -91,18 +91,21 @@ public class CompanyServiceImpl implements CompanyService {
 
 //    아이디로 기업 조회
     @Override
-    @Cacheable(value = "company", key="'company_' + #userId")
-    public Optional<AdminCompanyDTO> findCompany(Long userId) {
-        return companyDAO.selectCompany(userId)
-                .map(adminCompanyDTO -> {
-                    List<InternNoticeDTO> internNotices =
-                            internNoticeDAO.findInternNotices(userId);
-                    List<ExperienceNoticeDTO> experienceNotices =
-                            experienceNoticeDAO.selectListById(userId);
-                    adminCompanyDTO.setInternNoticeDTO(internNotices);
-                    adminCompanyDTO.setExperienceNoticeDTO(experienceNotices);
-                    return adminCompanyDTO;
-                });
+    @Cacheable(value = "company", key = "'company_' + #userId")
+    public AdminCompanyDTO findCompany(Long userId) {
+        AdminCompanyDTO adminCompanyDTO = companyDAO.selectCompany(userId).orElse(null);
+
+        if (adminCompanyDTO == null) {
+            return null; // 또는 throw new CompanyNotFoundException(...)
+        }
+
+        List<InternNoticeDTO> internNotices = internNoticeDAO.findInternNotices(userId);
+        List<ExperienceNoticeDTO> experienceNotices = experienceNoticeDAO.selectListById(userId);
+
+        adminCompanyDTO.setInternNoticeDTO(internNotices);
+        adminCompanyDTO.setExperienceNoticeDTO(experienceNotices);
+
+        return adminCompanyDTO;
     }
 
 

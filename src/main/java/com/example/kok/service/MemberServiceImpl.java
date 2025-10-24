@@ -1,5 +1,6 @@
 package com.example.kok.service;
 
+import com.example.kok.common.exception.MemberNotFoundException;
 import com.example.kok.domain.MemberVO;
 import com.example.kok.dto.*;
 import com.example.kok.repository.*;
@@ -108,30 +109,35 @@ public class MemberServiceImpl implements MemberService {
         return adminMemberCriteriaDTO;
     }
 
-//    회원 아이디로 조회
     @Override
-    @Cacheable(value = "member", key="'member_' + #memberId")
-    public Optional<UserMemberDTO> findMembersByMemberId(Long memberId) {
-        return memberDAO.selectMember(memberId)
-                .map(userMemberDTO -> {
-                    List<RequestExperienceDTO> requestExperiences =
-                            requestExperienceDAO.selectAllRequestById(memberId);
-                    List<RequestInternDTO> requestInterns =
-                            requestInternDAO.selectAllInternById(memberId);
-                    List<PostDTO> posts =
-                            communityPostDAO.findPostById(memberId);
+    @Cacheable(value = "member", key = "'member_' + #memberId")
+    public UserMemberDTO findMembersByMemberId(Long memberId) {
+        UserMemberDTO userMemberDTO = memberDAO.selectMember(memberId)
+                .orElseThrow(MemberNotFoundException::new);
 
-                    int postsCount = communityPostDAO.findPostsCountByMemberId(memberId);
-                    userMemberDTO.setPostsCount(postsCount);
 
-                    int followingCount = followDAO.selectFollowingCountByMemberId(memberId);
-                    userMemberDTO.setFollowingCount(followingCount);
+        if (userMemberDTO == null) {
+            return null;
+        }
 
-                    userMemberDTO.setRequestExperiences(requestExperiences);
-                    userMemberDTO.setRequestInterns(requestInterns);
-                    userMemberDTO.setPosts(posts);
-                    return userMemberDTO;
-                });
+        List<RequestExperienceDTO> requestExperiences =
+                requestExperienceDAO.selectAllRequestById(memberId);
+        List<RequestInternDTO> requestInterns =
+                requestInternDAO.selectAllInternById(memberId);
+        List<PostDTO> posts =
+                communityPostDAO.findPostById(memberId);
+
+        int postsCount = communityPostDAO.findPostsCountByMemberId(memberId);
+        userMemberDTO.setPostsCount(postsCount);
+
+        int followingCount = followDAO.selectFollowingCountByMemberId(memberId);
+        userMemberDTO.setFollowingCount(followingCount);
+
+        userMemberDTO.setRequestExperiences(requestExperiences);
+        userMemberDTO.setRequestInterns(requestInterns);
+        userMemberDTO.setPosts(posts);
+
+        return userMemberDTO;
     }
 
     @Override
