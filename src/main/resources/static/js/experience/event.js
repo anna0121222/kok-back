@@ -2,6 +2,7 @@
 
 
 const noData=document.querySelector(".no-data");
+const contentMainList=document.querySelector(".content-main");
 
 
 
@@ -326,8 +327,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const fileUrlPre = await fetch(`/api/experiences/profile?companyId=${companyId}`);
         const fileUrl = await fileUrlPre.text();
 
+        const startDate=new Date(detailData.notice.experienceStartDate);
         const endDate = new Date(detailData.notice.experienceEndDate);
-        const formatted = `${endDate.getFullYear()}년 ${endDate.getMonth() + 1}월 ${endDate.getDate()}일`;
+        const formattedStart = `${startDate.getFullYear()}년 ${startDate.getMonth() + 1}월 ${startDate.getDate()}일`;
+        const formattedEnd = `${endDate.getFullYear()}년 ${endDate.getMonth() + 1}월 ${endDate.getDate()}일`;
+
+        // const expNoticeStartDate=new Date(detailData.notice.experienceNoticeStartDate);
+        const expNoticeEndDate=new Date(detailData.notice.experienceNoticeEndDate);
+        // const expNoticeStartFormatted=`${expNoticeStartDate.getFullYear()}년 ${expNoticeStartDate.getMonth() + 1}월 ${expNoticeStartDate.getDate()}일`;
+        const expNoticeEndFormatted=`${expNoticeEndDate.getFullYear()}년 ${expNoticeEndDate.getMonth() + 1}월 ${expNoticeEndDate.getDate()}일`;
 
         const isSavedPre= await fetch(`/api/experiences/is-saved?experienceId=${experienceId}`);
         console.log(isSavedPre);
@@ -385,13 +393,17 @@ document.addEventListener("DOMContentLoaded", () => {
                                         </li>
                                         <li class="detail-meta-item">
                                             <p class="meta-label">회사 규모</p>
-                                            <p class="meta-value">${detailData.company.scaleName}</p>
+                                            <p class="meta-value">${detailData.company.scaleName||'-'}</p>
+                                        </li>
+                                        <li class="detail-meta-item detail-meta-item-import meta-item-full">
+                                            <p class="meta-label">체험일</p>
+                                            <p class="meta-value">${formattedStart}~${formattedEnd}</p>
                                         </li>
                                     </ul>
 
                                     <div class="deadline-info">
                                         <p class="deadline-remain">지원 마감까지 ${detailData.notice.remainingDays}일 남음</p>
-                                        <p class="deadline-description">${formatted}까지 지원할 수 있습니다.</p>
+                                        <p class="deadline-description">${expNoticeEndFormatted}까지 지원할 수 있습니다.</p>
                                     </div>
 
                                     <div class="detail-description">
@@ -412,6 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                         </div>`;
         contentDetail.classList.add("active");
+        contentMainList.classList.add("display-none-list");
         if (contentSide) contentSide.style.display = "none";
     }
 
@@ -447,6 +460,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const inner = contentDetail.querySelector(".content-detail-inner");
         if (inner) inner.classList.remove("active");
         contentDetail.classList.remove("active");
+        contentMainList.classList.remove("display-none-list");
 
         if (contentSide) contentSide.style.display = "flex";
     });
@@ -577,12 +591,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const expId = Number(applyBtn.dataset.experienceid);
 
             const isRequestedPre=await fetch(`/api/experiences/is-requested?experienceId=${expId}`);
-            const isRequested=isRequestedPre.json();
+            const isRequested=await isRequestedPre.json();
             const isRequestedDetail=isRequested;
+
+            // console.log(isRequestedDetail);
 
             if(isRequestedDetail){
                 textBox.textContent="이미 지원한 공고입니다."
+                requestToast.classList.add("show");
                 showingToast=true;
+                setTimeout(() => {
+                    requestToast.classList.remove("show");
+                    showingToast = false;
+                }, 2000);
+                // showingToast=true;
                 return;
             }
 
@@ -714,6 +736,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // 해당 팝업 열기
         popup.classList.add("active");
 
+        // 추가 등혹
+        const plusStorageBtn=document.getElementById("file-add-btn");
+        if(plusStorageBtn){
+            plusStorageBtn.addEventListener("click", ()=>{
+                saveStorageFilePop.classList.add("active");
+            })
+        }
+
         // 이력서 등록하기
         const putFileBtn = document.querySelector(".btn-primary.popup-trigger");
         if (putFileBtn) {
@@ -823,13 +853,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 인풋 파일 등록
     function fileInputFn() {
+        console.log("fileInputFn() 실행");
         const fileInput = document.getElementById("file-input");
         const formFileLabel = document.querySelector(".form-file-label");
 
         if (!fileInput) return;
 
         fileInput.addEventListener("change", () => {
-            if (fileInput.files.length > 0) {
+            if (fileInput.files.length > 0&&fileInput.files.length<2) {
                 console.log("화면에 파일 이름 띄우기");
                 formFileLabel.textContent = fileInput.files[0].name;
             }else if(fileInput.files.length>1){
@@ -1508,7 +1539,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // JS
 function bannerActiveFn() {
     const banners = document.querySelectorAll(".banner-list .ad-banner");
-    let timer = null;
+    if(banners.length>0){
+        let timer = null;
     let currentIndex = -1;
 
     if (!banners) return;
@@ -1535,6 +1567,8 @@ function bannerActiveFn() {
 
     // 3초마다 랜덤 배너 변경
     timer = setInterval(showRandomBanner, 5000);
+    }
+
 }
 bannerActiveFn();
 

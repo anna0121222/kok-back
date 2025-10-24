@@ -1,6 +1,8 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const contentMainList=document.querySelector(".content-main");
+
     // 서치 드롭다운 옵션 버튼 클릭 시 active 클래스 토글 및 전체 선택 상태 업데이트
     function searchDropdownFn() {
         let isAllSelected = false;
@@ -360,6 +362,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                         </div>`;
         contentDetail.classList.add("active");
+        contentMainList.classList.add("display-none-list");
         if (contentSide) contentSide.style.display = "none";
     }
 
@@ -395,6 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const inner = contentDetail.querySelector(".content-detail-inner");
         if (inner) inner.classList.remove("active");
         contentDetail.classList.remove("active");
+        contentMainList.classList.remove("display-none-list");
 
         if (contentSide) contentSide.style.display = "flex";
     });
@@ -514,6 +518,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if(e.target.classList.contains("popup-trigger")){
             await quickApplyPopupFn();
             const trigger=e.target;
+            const requestToast = document.querySelector("#toast-white");
+            const textBox = requestToast.querySelector("p");
             const dropdowns = document.querySelectorAll(".option-menu");
 
             // console.log("간편지원하기 클릭됨");
@@ -521,6 +527,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const popup = document.querySelector(target);
             const applyBtn=e.target;
             const intId = Number(applyBtn.dataset.internid);
+
+            const isRequestedPre=await fetch(`/api/interns/is-requested?internId=${intId}`);
+            const isRequestedIntern=await isRequestedPre.json();
+            const isRequestedDetail=isRequestedIntern;
+
+            console.log(isRequestedDetail);
+
+            if(isRequestedDetail){
+                textBox.textContent="이미 지원한 공고입니다."
+                requestToast.classList.add("show");
+                showingToast=true;
+                setTimeout(() => {
+                    requestToast.classList.remove("show");
+                    showingToast = false;
+                }, 2000);
+                // showingToast=true;
+                return;
+            }
 
             nowInternId=intId;
 
@@ -1449,7 +1473,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // JS
 function bannerActiveFn() {
     const banners = document.querySelectorAll(".banner-list .ad-banner");
-    let timer = null;
+    if(banners.length>0){
+        let timer = null;
     let currentIndex = -1;
 
     if (!banners) return;
@@ -1476,6 +1501,8 @@ function bannerActiveFn() {
 
     // 3초마다 랜덤 배너 변경
     timer = setInterval(showRandomBanner, 5000);
+    }
+
 }
 bannerActiveFn();
 

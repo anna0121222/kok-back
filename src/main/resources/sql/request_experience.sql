@@ -25,6 +25,10 @@ CREATE TABLE tbl_request_experience (
 select * from tbl_request_experience;
 select * from tbl_member;
 
+update tbl_request_experience
+set request_experience_status='accept'
+where id=37;
+
 select * from tbl_request_experience_file;
 
 alter table tbl_request_experience add request_experience_member_name varchar(255) not null;
@@ -50,3 +54,5 @@ insert into tbl_request_experience (experience_notice_id, member_id, member_alar
 values (4, 1, 1,'김신영','ksy3095@naver.com','01012345678',2);
 
 alter table tbl_request_experience add request_experience_active status default 'active' not null;
+
+delete from tbl_request_experience where member_id=25;

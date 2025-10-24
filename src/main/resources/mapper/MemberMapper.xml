@@ -58,7 +58,7 @@
     from view_user_with_evaluation_and_job v
     join tbl_member m
     on v.id=m.user_id
-    where user_status = 'active' and user_role = 'member' and id = #{id}
+    where v.user_status = 'active' and v.user_role = 'member' and v.id = #{id}
 </select>
 
 <!--    회원 id로 지원한 체험 공고 목록 조회-->
@@ -95,6 +95,7 @@
         join tbl_post p
         on p.member_id=u.id
         where u.id=#{memberId}
+        and p.post_status='active'
     </select>
 
 <!--    회원 id로 직군 조회-->
@@ -148,6 +149,7 @@
         join tbl_company c
         on c.user_id=e.company_id
         where u.id=#{memberId}
+        and e.experience_notice_status='active'
     </select>
 
     <!--    저장된 인턴 공고 조회-->
@@ -161,6 +163,7 @@
         join tbl_company c
         on c.user_id=i.company_id
         where u.id=#{memberId}
+        and i.intern_notice_status='active'
     </select>
 
 <!--    체험 지원 취소-->

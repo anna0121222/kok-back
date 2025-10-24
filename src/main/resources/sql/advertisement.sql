@@ -14,7 +14,7 @@ CREATE TABLE tbl_advertisement (
 );
 
 update tbl_advertisement
-set advertisement_status = 'active'
+set advertisement_status='active'
 where id > 0;
 
 select * from tbl_advertisement;
@@ -49,3 +49,7 @@ WHERE advertisement_status IS NULL;
 SELECT id, advertisement_status
 FROM tbl_advertisement
 WHERE advertisement_status IS NULL;
+
+update tbl_advertisement
+set advertisement_status='inactive'
+where id=8;

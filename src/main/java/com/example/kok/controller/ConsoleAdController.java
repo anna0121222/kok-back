@@ -10,9 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Slf4j
 @Controller
@@ -31,7 +28,7 @@ public class ConsoleAdController {
         model.addAttribute("companyId", companyId);
         model.addAttribute("companyName", companyName);
         model.addAttribute("memberName", memberName);
-        return "enterprise-console/console-add-list";
+        return "enterprise-console/advertisement/console-add-list";
     }
 
 //    기업 콘솔 광고 등록/수정
@@ -52,10 +49,9 @@ public class ConsoleAdController {
             model.addAttribute("companyName", companyName);
             model.addAttribute("memberName", memberName);
 
-            return "enterprise-console/console-add-upload";
+            return "enterprise-console/advertisement/console-add-upload";
         }
         ConsoleAdNoticeDTO notice = consoleAdService.getDetail(id);
-
         consoleAdService.setPreSignedUrl(notice);
 
         Long companyId = customUserDetails.getId();
@@ -69,7 +65,7 @@ public class ConsoleAdController {
         model.addAttribute("companyName", companyName);
         model.addAttribute("memberName", memberName);
 
-        return "enterprise-console/console-add-upload";
+        return "enterprise-console/advertisement/console-add-upload";
     }
 
 }

@@ -64,6 +64,9 @@ public class MainpageServiceImpl implements MainpageService {
     @Override
     public CustomUserDetails findProfile(CustomUserDetails customUserDetails) {
         if(customUserDetails.getMemberProfileUrl()!=null){
+            if(userProfileService.findProfileById(customUserDetails.getId()) != null){
+                customUserDetails.setMemberProfileUrl(userProfileService.findProfileById(customUserDetails.getId()));
+            }
         }else {
             if(customUserDetails.getUserRole()== UserRole.MEMBER) {
                 if (userProfileService.findProfileById(customUserDetails.getId()) != null) {
@@ -71,12 +74,15 @@ public class MainpageServiceImpl implements MainpageService {
                 } else {
                     customUserDetails.setMemberProfileUrl("/images/main-page/image3.png");
                 }
-            }else{
-                if(companyProfileFileDAO.findFileByCompanyId(customUserDetails.getId()).getFilePath()!=null){
+            }else if(customUserDetails.getUserRole()== UserRole.COMPANY) {
+                if(companyProfileFileDAO.findCountByCompanyId(customUserDetails.getId()) > 0) {
                     customUserDetails.setMemberProfileUrl(s3Service.getPreSignedUrl(companyProfileFileDAO.findFileByCompanyId(customUserDetails.getId()).getFilePath(), Duration.ofMinutes(10)));
                 }else{
                     customUserDetails.setMemberProfileUrl("/images/main-page/image3.png");
                 }
+                customUserDetails.setCompanyName(companyDAO.findCompanyById(customUserDetails.getId()).getCompanyName());
+            }else{
+                return customUserDetails;
             }
 
         }

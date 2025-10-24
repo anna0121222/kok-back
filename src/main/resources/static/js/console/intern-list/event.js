@@ -30,31 +30,27 @@ if (internTable) {
     internTable.addEventListener("click", async (e) => {
         const activeExp = e.target.closest("button.appli-active-btn");
         if (activeExp) {
-            const tr = activeExp.closest("tr.body-tr");
-            const activeCircle = activeExp.querySelector(".circle");
-            const expStatus = tr.querySelector("span.exp-status");
+            const btn = e.target.closest(".appli-active-btn");
+            const tr = btn.closest(".body-tr");
+            const span = tr.querySelector(".exp-status");
+            const isActive = btn.classList.contains("active");
 
-            if (!activeCircle || !expStatus) return;
-
-            tr.querySelectorAll(".appli-active-btn").forEach(btn => {
+            if (isActive) {
                 btn.classList.remove("active");
-            });
-            activeExp.classList.add("active");
-            expStatus.classList.add("active");
-
-            if (expStatus.classList.contains("inactive")) {
-                activeExp.classList.remove("inactive");
-                expStatus.classList.remove("inactive");
-                expStatus.innerText = "모집 중";
-                statusValue = "active";
-            } else {
-                activeExp.classList.add("inactive");
-                expStatus.classList.add("inactive");
-                expStatus.innerText = "모집 완료";
+                btn.classList.add("inactive");
+                span.classList.remove("active");
+                span.classList.add("inactive");
+                span.innerText = "모집 완료";
                 statusValue = "inactive";
+            } else {
+                btn.classList.remove("inactive");
+                btn.classList.add("active");
+                span.classList.remove("inactive");
+                span.classList.add("active");
+                span.innerText = "모집중";
+                statusValue = "active";
             }
 
-            // 상태 버튼 클릭시 확인
             const noticeId = tr.dataset.id;
             try {
                 const data = await internNoticeService.updateInternStatus(noticeId, statusValue);
@@ -72,14 +68,13 @@ if (internTable) {
             // 모든 팝업 닫기
             document.querySelectorAll(".hambuger-pop-wrap").forEach((pop) => {
                 pop.style.display = "none";
+                pop.classList.remove("active");
             });
 
             // 현재 버튼 다음 형제 팝업만 열기
             const hambugerPopWrap = hambugerBtn.nextElementSibling;
             if (hambugerPopWrap) {
-                hambugerPopWrap.style.position = "absolute";
-                hambugerPopWrap.style.top = "50px";
-                hambugerPopWrap.style.right = "32px";
+                hambugerPopWrap.classList.add("active");
                 hambugerPopWrap.style.display = "block";
             }
             return;
@@ -99,7 +94,14 @@ if (internTable) {
 
             if (result === "success") {
                 alert("공고가 삭제되었습니다!");
-                location.reload();
+                internNoticeService.getList(page, status, keyword,(data) => {
+                    internLayout.contentLayout();
+                    internLayout.rowTemplate(data.internLists);
+                    internLayout.totalCount(data);
+                    internLayout.listTotalCount(data);
+                    internLayout.renderPagination(data.criteria);
+                    bindPaginationEvent(status, keyword);
+                });
             } else {
                 alert("삭제 실패! 다시 시도해주세요.");
             }
@@ -121,7 +123,7 @@ const page = 1;
 let status = null;
 let keyword ="";
 
-const bindPaginationEvent = (companyId, status) => {
+const bindPaginationEvent = (status) => {
     const paginationArea = document.querySelector("#intern-list-table .page-ul");
     if (!paginationArea) return;
 
@@ -137,25 +139,25 @@ const bindPaginationEvent = (companyId, status) => {
 
         const page = parseInt(link.dataset.page, 10);
 
-        internNoticeService.getList(companyId, page, status, keyword,(data) => {
+        internNoticeService.getList(page, status, keyword,(data) => {
             internLayout.contentLayout();
             internLayout.rowTemplate(data.internLists);
             internLayout.totalCount(data);
             internLayout.listTotalCount(data);
             internLayout.renderPagination(data.criteria);
 
-            bindPaginationEvent(companyId, status, keyword);
+            bindPaginationEvent(status, keyword);
         });
     });
 };
 
-internNoticeService.getList(companyId, page, status, keyword,(data) => {
+internNoticeService.getList(page, status, keyword,(data) => {
     internLayout.contentLayout();
     internLayout.rowTemplate(data.internLists);
     internLayout.totalCount(data);
     internLayout.listTotalCount(data);
     internLayout.renderPagination(data.criteria);
-    bindPaginationEvent(companyId, status, keyword);
+    bindPaginationEvent(status, keyword);
 });
 
 
@@ -187,13 +189,13 @@ statusButtons.forEach(btn => {
 function doSearch(page = 1) {
     keyword = searchInput.value.trim();
 
-    internNoticeService.getList(companyId, page, status, keyword, (data) => {
+    internNoticeService.getList(page, status, keyword, (data) => {
         internLayout.contentLayout();
         internLayout.rowTemplate(data.internLists);
         internLayout.totalCount(data);
         internLayout.listTotalCount(data);
         internLayout.renderPagination(data.criteria);
-        bindPaginationEvent(companyId, page, status, keyword);
+        bindPaginationEvent(page, status, keyword);
     });
 }
 

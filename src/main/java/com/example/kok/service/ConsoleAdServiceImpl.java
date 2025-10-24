@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,9 +70,13 @@ public class ConsoleAdServiceImpl implements ConsoleAdService {
         List<FileDTO> files = consoleAdFileDAO.findAllByAdvertisementId(consoleAdDTO.getId());
 
         files.forEach(file -> {
-            file.setFilePath(
-                    s3Service.getPreSignedUrl(file.getFilePath(), Duration.ofMinutes(5))
-            );
+            if (file.getFilePath().contains("/images/experience/ad_bg_img.jpg")) {
+                file.setFilePath("/images/experience/ad_bg_img.jpg");
+            } else {
+                file.setFilePath(
+                        s3Service.getPreSignedUrl(file.getFilePath(), Duration.ofMinutes(5))
+                );
+            }
         });
 
         consoleAdDTO.setUploadedFiles(files);
@@ -84,36 +89,37 @@ public class ConsoleAdServiceImpl implements ConsoleAdService {
         consoleAdDAO.createAdvertisement(consoleAdDTO);
 
         // 파일 업로드
-        multipartFiles.forEach(multipartFile -> {
-            if (multipartFile.isEmpty()) return;
+        if (multipartFiles != null && !multipartFiles.isEmpty()) {
+            multipartFiles.forEach(multipartFile -> {
+                if (multipartFile.isEmpty()) return;
 
-            try {
-                // S3 업로드
-                String s3Key = s3Service.uploadFile(multipartFile, getPath());
+                try {
+                    // S3 업로드
+                    String s3Key = s3Service.uploadFile(multipartFile, getPath());
 
-                // 파일 DTO 구성
-                FileDTO fileDTO = new FileDTO();
-                fileDTO.setFileOriginName(multipartFile.getOriginalFilename());
-                fileDTO.setFileName(UUID.randomUUID().toString());
-                fileDTO.setFilePath(s3Key);
-                fileDTO.setFileSize(String.valueOf(multipartFile.getSize()));
-                fileDTO.setFileContentType(multipartFile.getContentType());
+                    // 파일 DTO 구성
+                    FileDTO fileDTO = new FileDTO();
+                    fileDTO.setFileOriginName(multipartFile.getOriginalFilename());
+                    fileDTO.setFileName(UUID.randomUUID().toString());
+                    fileDTO.setFilePath(s3Key);
+                    fileDTO.setFileSize(String.valueOf(multipartFile.getSize()));
+                    fileDTO.setFileContentType(multipartFile.getContentType());
 
-                // tbl_file 저장
-                consoleAdFileDAO.saveFile(fileDTO);
+                    // tbl_file 저장
+                    consoleAdFileDAO.saveFile(fileDTO);
 
-                ConsoleAdNoticeFileDTO consoleFileDTO = new ConsoleAdNoticeFileDTO();
-                consoleFileDTO.setFileId(fileDTO.getId());
-                consoleFileDTO.setAdvertisementId(consoleAdDTO.getId());
+                    ConsoleAdNoticeFileDTO consoleFileDTO = new ConsoleAdNoticeFileDTO();
+                    consoleFileDTO.setFileId(fileDTO.getId());
+                    consoleFileDTO.setAdvertisementId(consoleAdDTO.getId());
 
+                    // 광고-파일 연결
+                    consoleAdFileDAO.linkFileToAdvertisement(consoleFileDTO);
 
-                // 광고-파일 연결
-                consoleAdFileDAO.linkFileToAdvertisement(consoleFileDTO);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
 
         Long advertisementId = consoleAdDTO.getId();
 
@@ -122,7 +128,7 @@ public class ConsoleAdServiceImpl implements ConsoleAdService {
         payment.setAdvertisementId(advertisementId);
         payment.setUserId(consoleAdDTO.getCompanyId());
         payment.setPaymentPrice(consoleAdDTO.getPaymentPrice());
-//        payment.setPaymentStatus(RequestStatus.AWAIT);
+        payment.setPaymentStatus(Status.ACTIVE);
         paymentDAO.insertPayment(payment);
 
 //        결제사용자 등록

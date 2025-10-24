@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public class MemberServiceImpl implements MemberService {
     private final CommunityLikeDAO communityLikeDAO;
     private final CommunityCommentService communityCommentService;
     private final PaymentDAO paymentDAO;
+    private final CommunityCommentDAO communityCommentDAO;
 
     @Override
     public void joinMember(MemberVO memberVO) {
@@ -51,6 +53,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public void putFileAtStorage(List<MultipartFile> files, Long memberId) {
         files.forEach(file -> {
             try {
@@ -82,6 +85,11 @@ public class MemberServiceImpl implements MemberService {
         return memberStorageFileDAO.findFilesByMemberId(memberId);
     }
 
+    @Override
+    public void deleteFileByFileId(Long fileId){
+        memberStorageFileDAO.deleteFileByFileId(fileId);
+    }
+
 //    회원 전체조회
     @Override
     public AdminMemberCriteriaDTO findUserMembers(int page, String keyword) {
@@ -109,6 +117,7 @@ public class MemberServiceImpl implements MemberService {
         return adminMemberCriteriaDTO;
     }
 
+//    회원 아이디로 조회
     @Override
     @Cacheable(value = "member", key = "'member_' + #memberId")
     public UserMemberDTO findMembersByMemberId(Long memberId) {

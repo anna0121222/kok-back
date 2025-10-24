@@ -1,5 +1,7 @@
 package com.example.kok.controller;
 
+import com.example.kok.aop.aspect.annotation.LogReturnStatus;
+import com.example.kok.aop.aspect.annotation.LogStatus;
 import com.example.kok.dto.*;
 import com.example.kok.service.ConsoleAdService;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +16,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/enterprise-console/ad")
-public class ConsoleAdApiController {
+public class ConsoleAdApiController implements ConsoleAdApiControllerDocs {
     private final ConsoleAdService adService;
 
 //    목록
     @GetMapping("/list/{companyId}/{page}")
-    public ResponseEntity<?> list(@PathVariable("companyId") Long companyId,
+    public ResponseEntity<ConsoleAdNoticeCriteriaDTO> list(@PathVariable("companyId") Long companyId,
                                   @PathVariable("page") int page,
                                   @RequestParam(required = false) String keyword) {
 
@@ -33,6 +35,7 @@ public class ConsoleAdApiController {
 
 //    등록
     @PostMapping("/create")
+    @LogStatus
     public ResponseEntity<?> registerAdvertisement(
             @ModelAttribute ConsoleAdNoticeDTO adNoticeDTO,
             @RequestParam(value = "files", required = false) List<MultipartFile> multipartFiles) {
@@ -68,7 +71,7 @@ public class ConsoleAdApiController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAd(@PathVariable("id") Long advertisementId) {
         adService.deleteAdvertisement(advertisementId);
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok("success");
     }
 
 }

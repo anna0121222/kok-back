@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const popupTitle = popup.querySelector(".pop-title");
     const btnNo = popup.querySelector(".btn-no");
     const btnYes = popup.querySelector(".btn-yes");
+    const evalBtn=document.querySelector(".new-exp");
     let selectedStatus = "";
     let confirmedStatus = "";
 
@@ -45,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // 팝업 확인(진행 상태 변경) 버튼
-    btnYes.addEventListener("click", () => {
+    btnYes.addEventListener("click", async () => {
         if (!selectedStatus) return;
 
         // 선택한 상태 반영
@@ -53,6 +54,21 @@ document.addEventListener("DOMContentLoaded", () => {
         statusSpan.textContent = confirmedStatus;
         popup.classList.remove("active");
 
+        const statusMap = {
+            "합격": "accept",
+            "불합격": "reject",
+            "서류 검토 중": "await"
+        };
+
+        const statusValue = statusMap[confirmedStatus] || confirmedStatus.toLowerCase();
+
+        try {
+            await applicationExperienceService.updateStatus(memberId, experienceNoticeId, statusValue);
+            const statusMarkSpan = document.querySelector(".status-mark-span");
+            statusMarkSpan.textContent = confirmedStatus;
+        } catch (error) {
+            alert("상태 변경에 실패했습니다.");
+        }
     });
 
     // 바깥 클릭 시 닫기
@@ -61,6 +77,26 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdown.classList.remove("active");
         }
     });
+
+//     평가하기 버튼
+    evalBtn.addEventListener("click", async () => {
+        const evalPre = await fetch(`/api/enterprise-console/experience/isEvalOk?experienceNoticeId=${experienceNoticeId}&memberId=${memberId}`);
+        const evalOk=await evalPre.json();
+        const eval=evalOk;
+
+        console.log(eval);
+
+        if(eval){
+            console.log("eval true if문 들어옴")
+            // const goToReview=await fetch(`/enterprise-console/experience/review?memberId=${memberId}&experienceNoticeId=${experienceNoticeId}`);
+            // await goToReview;
+            window.location.href = `/enterprise-console/experience/review?memberId=${memberId}&experienceNoticeId=${experienceNoticeId}&requestExperienceId=${applicantDetail.requestId}`;
+        }
+        else{
+            alert("평가가 불가능합니다. 합격 여부, 체험 종료일을 확인해 주세요.")
+        }
+
+    })
 
 });
 
@@ -71,18 +107,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     downloadBtn.addEventListener("click", async () => {
         try {
-            // 백엔드로 presigned URL 요청
-            const response = await fetch(`/files/experience/download/${experienceNoticeId}/${memberId}`);
+            const response = await fetch(`/api/enterprise-console/experience/${experienceNoticeId}/applications/files`, {
+                method: 'POST',
+                body: JSON.stringify([memberId]),
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                }
+            });
 
             if (!response.ok) {
                 alert("이력서 파일을 찾을 수 없습니다.");
                 return;
             }
 
-            // presigned URL 문자열 반환
-            const downloadUrl = await response.text();
+            const requestExperienceDownloadUrlDTO = await response.json();
+            const downloadUrl = requestExperienceDownloadUrlDTO.urls[0];
 
-            // 새 창에서 다운로드 실행
             window.open(downloadUrl, "_blank");
         } catch (error) {
             console.error("다운로드 중 오류 발생:", error);

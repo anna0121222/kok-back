@@ -6,10 +6,10 @@ const internDatailLayout = (() => {
                  <div class="card-title">
                  <!-- 전체 총 명수-->
                  </div>
-                <button class="download">
+                <a href="#" class="download">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-svg"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
                     이력서 다운로드
-                </button>
+                </a>
             </div>
             <div class="card-content">
                 <table class="list-list-table">
@@ -56,7 +56,7 @@ const internDatailLayout = (() => {
             tbody.innerHTML = `
                 <tr class="body-tr no-data">
                     <td class="body-td" colspan="9">
-                        <div class="text">조건에 맞는 공고가 없습니다.</div>
+                        <div class="text">조건에 맞는 지원자가 없습니다.</div>
                     </td>
                 </tr>`;
             return;
@@ -67,7 +67,7 @@ const internDatailLayout = (() => {
                 <tr class="body-tr" data-user-id="${list.userId}">
                     <td class="body-td">
                         <label style="display:block; width:100%; height:100%;">
-                            <input type="checkbox" name="" class="check-download">
+                            <input type="checkbox" name="" class="check-download" data-member-id="${list.userId}">
                         </label>
                     </td>
                     <td class="body-td">
@@ -86,7 +86,11 @@ const internDatailLayout = (() => {
                         <span class="exp-status">${list.requestInternStatus === "await" ? "서류 검토 중" : list.requestInternStatus === "accept" ? "합격" : "불합격"}</span>
                     </td>
                      <td class="body-td">
-                        <a href="/enterprise-console/intern/application/${list.internNoticeId}/${list.userId}" class="more-btn">상세보기</a>
+                        <a href="/enterprise-console/intern/application/${list.internNoticeId}/${list.userId}" class="more-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-right">
+                                <path d="m9 18 6-6-6-6"></path>
+                            </svg>
+                        </a>
                     </td>
                 </tr>
             `;

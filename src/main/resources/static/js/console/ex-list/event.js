@@ -25,62 +25,31 @@ jobItems.forEach((item) => {
     });
 });
 
-const priceText = document.querySelector(".span-number");
-const priceNum = Number(priceText);
-console.log(priceNum);
-
-// 마감일 지났을때 버튼 숨기기 함수
-function hideExpiredButtons() {
-    const today = new Date();
-    const listTr = document.querySelectorAll("tr.body-tr");
-
-    listTr.forEach(tr => {
-        const endDateText = tr.querySelector(".end-date").textContent.trim();
-        const activeExp = tr.querySelector("button.appli-active-btn");
-
-        const endDate = new Date(endDateText);
-
-        console.log("endDate:", endDate);
-        console.log("today:", today);
-
-        if (endDate < today) {
-            console.log("마감됨:", tr.dataset.id);
-            activeExp.style.display = "none";
-        }
-    });
-}
-
-
 const experienceTable = document.querySelector("#experience-list-table");
 if (experienceTable) {
-
-    // 마감일 지났을때 버튼 안보이게
-    hideExpiredButtons()
-
     // 모집 상태 토글
     experienceTable.addEventListener("click", async (e) => {
         const activeExp = e.target.closest("button.appli-active-btn");
         if (activeExp) {
-            const tr = activeExp.closest("tr.body-tr");
-            const expStatus = tr.querySelector("span.exp-status");
+            const btn = e.target.closest(".appli-active-btn");
+            const tr = btn.closest(".body-tr");
+            const span = tr.querySelector(".exp-status");
+            const isActive = btn.classList.contains("active");
 
-            tr.querySelectorAll(".appli-active-btn").forEach(btn => {
+            if (isActive) {
                 btn.classList.remove("active");
-            });
-            activeExp.classList.add("active");
-            expStatus.classList.add("active");
-
-            let statusValue;
-            if (expStatus.classList.contains("inactive")) {
-                activeExp.classList.remove("inactive");
-                expStatus.classList.remove("inactive");
-                expStatus.innerText = "모집 중";
-                statusValue = "active";
-            } else {
-                activeExp.classList.add("inactive");
-                expStatus.classList.add("inactive");
-                expStatus.innerText = "모집 완료";
+                btn.classList.add("inactive");
+                span.classList.remove("active");
+                span.classList.add("inactive");
+                span.innerText = "모집 완료";
                 statusValue = "inactive";
+            } else {
+                btn.classList.remove("inactive");
+                btn.classList.add("active");
+                span.classList.remove("inactive");
+                span.classList.add("active");
+                span.innerText = "모집중";
+                statusValue = "active";
             }
 
             const noticeId = tr.dataset.id;
@@ -100,14 +69,13 @@ if (experienceTable) {
             // 모든 팝업 닫기
             document.querySelectorAll(".hambuger-pop-wrap").forEach((pop) => {
                 pop.style.display = "none";
+                pop.classList.remove("active");
             });
 
             // 현재 버튼 다음 형제 팝업만 열기
             const hambugerPopWrap = hambugerBtn.nextElementSibling;
             if (hambugerPopWrap) {
-                hambugerPopWrap.style.position = "absolute";
-                hambugerPopWrap.style.top = "50px";
-                hambugerPopWrap.style.right = "32px";
+                hambugerPopWrap.classList.add("active");
                 hambugerPopWrap.style.display = "block";
             }
             return;
@@ -127,7 +95,15 @@ if (experienceTable) {
 
             if (result === "success") {
                 alert("공고가 삭제되었습니다!");
-                location.reload();
+
+                experienceNoticeService.getList(page, status, keyword,(data) => {
+                    experienceLayout.contentLayout();
+                    experienceLayout.rowTemplate(data.experienceLists);
+                    experienceLayout.totalCount(data);
+                    experienceLayout.listTotalCount(data);
+                    experienceLayout.renderPagination(data.criteria);
+                    bindPaginationEvent(status, keyword);
+                });
             } else {
                 alert("삭제 실패! 다시 시도해주세요.");
             }
@@ -146,12 +122,11 @@ if (experienceTable) {
 
 
 // ######################### 공고목록 ############################
-// const companyId = 1;
 const page = 1;
 let status = null;
 let keyword ="";
 
-const bindPaginationEvent = (companyId, status) => {
+const bindPaginationEvent = (status) => {
     const paginationArea = document.querySelector("#experience-list-table .page-ul");
     if (!paginationArea) return;
 
@@ -167,44 +142,31 @@ const bindPaginationEvent = (companyId, status) => {
 
         const page = parseInt(link.dataset.page, 10);
 
-        experienceNoticeService.getList(companyId, page, status, keyword,(data) => {
+        experienceNoticeService.getList(page, status, keyword,(data) => {
             experienceLayout.contentLayout();
             experienceLayout.rowTemplate(data.experienceLists);
             experienceLayout.totalCount(data);
             experienceLayout.listTotalCount(data);
             experienceLayout.renderPagination(data.criteria);
 
-            bindPaginationEvent(companyId, status, keyword);
+            bindPaginationEvent(status, keyword);
         });
     });
 };
 
-experienceNoticeService.getList(companyId, page, status, keyword,(data) => {
+experienceNoticeService.getList(page, status, keyword,(data) => {
     experienceLayout.contentLayout();
     experienceLayout.rowTemplate(data.experienceLists);
     experienceLayout.totalCount(data);
     experienceLayout.listTotalCount(data);
     experienceLayout.renderPagination(data.criteria);
-    bindPaginationEvent(companyId, status, keyword);
+    bindPaginationEvent(status, keyword);
 });
 
 
 // ######################### 검색 ############################
-// 요소 가져오기
 const searchInput = document.querySelector(".search-input");     // 검색어
-// const jobButtons = document.querySelectorAll(".job-3 .job-6");   // 직군 선택
 const statusButtons = document.querySelectorAll(".category-sub"); // 전체/모집중/종료
-
-// 현재 선택 상태 저장
-// let selectedJob = "";     // 직군
-
-// 직군 선택 이벤트
-// jobButtons.forEach(btn => {
-//     btn.addEventListener("click", () => {
-//         selectedJob = btn.textContent.trim();
-//         document.querySelector(".search-span").textContent = selectedJob; // 버튼에 표시 업데이트
-//     });
-// });
 
 // 상태 버튼 이벤트 (전체/모집중/모집종료)
 statusButtons.forEach(btn => {
@@ -230,13 +192,13 @@ statusButtons.forEach(btn => {
 function doSearch(page = 1) {
     keyword = searchInput.value.trim();
 
-    experienceNoticeService.getList(companyId, page, status, keyword, (data) => {
+    experienceNoticeService.getList(page, status, keyword, (data) => {
         experienceLayout.contentLayout();
         experienceLayout.rowTemplate(data.experienceLists);
         experienceLayout.totalCount(data);
         experienceLayout.listTotalCount(data);
         experienceLayout.renderPagination(data.criteria);
-        bindPaginationEvent(companyId, page, status, keyword);
+        bindPaginationEvent(page, status, keyword);
     });
 }
 
