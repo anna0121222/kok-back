@@ -50,6 +50,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void deleteProfile(Long id) {
         memberDAO.deleteProfile(id);
+        memberDAO.deleteProfileUrl(id);
     }
 
     @Override
@@ -166,21 +167,21 @@ public class MemberServiceImpl implements MemberService {
         List<PostDTO> posts=memberDAO.findPostsByMemberId(memberId);
         posts.forEach(post -> {
             post.setRelativeDate(DateUtils.toRelativeTime(post.getCreatedDateTime()));
-            post.setCommentsCount(communityCommentService.commentsCountByPostId(post.getId()));
+            post.setCommentsCount(communityCommentDAO.getTotal(post.getId()));
             List<PostFileDTO> postFiles = communityPostFileDAO.findAllByPostId(post.getId());
             postFiles.forEach(postFile -> {
                 postFile.setPostFilePath(s3Service.getPreSignedUrl(postFile.getPostFilePath(), Duration.ofMinutes(10)));
             });
             post.setPostFiles(postFiles);
 
-            post.setLikesCount(communityLikeDAO.getPostLikeCount(post.getId()));
-            if (memberId != null) {
-                post.setOwner(memberId.equals(post.getMemberId()));
-                post.setLiked(communityLikeDAO.isexistLike(post.getId(), memberId));
-            } else {
-                post.setOwner(false);
-                post.setLiked(false);
-            }
+//            post.setLikesCount(communityLikeDAO.getPostLikeCount(post.getId()));
+//            if (memberId != null) {
+//                post.setOwner(memberId.equals(post.getMemberId()));
+//                post.setLiked(communityLikeDAO.isexistLike(post.getId(), memberId));
+//            } else {
+//                post.setOwner(false);
+//                post.setLiked(false);
+//            }
         });
         return posts;
     }
@@ -220,7 +221,7 @@ public class MemberServiceImpl implements MemberService {
 //        System.out.println("서비스 인포: " + dto.getMemberInfo());
 //        System.out.println("서비스 직군: " + dto.getJobName());
 //        System.out.println("서비스 프사 empty: "+profile.isEmpty());
-        if(originJobCate==null){
+        if(originJobCate==null&&dto.getJobName()!=null){
             memberDAO.plusJob(id, dto.getJobName());
         } else{
             memberDAO.updateJob(id, dto.getJobName());
@@ -245,8 +246,6 @@ public class MemberServiceImpl implements MemberService {
                 fileDTO.setFilePath(s3Key);
                 fileDTO.setFileSize(String.valueOf(profile.getSize()));
                 fileDTO.setFileContentType(profile.getContentType());
-
-//                System.out.println("filePath:"+fileDTO.getFilePath());
 
                 // tbl_file 등록
                 memberDAO.saveFile(fileDTO);
@@ -277,11 +276,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Cacheable(value = "memberProfile", key="#memberId")
     public Optional<UserMemberDTO> findProfileByMemberId(Long memberId) {
         Optional<UserMemberDTO> memberProfile=memberDAO.findMemberProfileEtc(memberId);
         if (memberProfile.isPresent()) {
             UserMemberDTO member = memberProfile.get();
             String profileKey = member.getMemberProfileUrl();
+            System.out.println("#######################");
+            System.out.println(profileKey);
             String preSignedUrl = null;
 
             if (profileKey != null && !profileKey.isBlank() && !profileKey.startsWith("http")) {
