@@ -563,7 +563,7 @@ div {
     align-items: flex-start;
     flex-direction: column;
     width: 320px;
-    min-height: 100vh;
+    min-height: 110vh;
     gap: 16px;
     display: flex;
 }
