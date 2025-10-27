@@ -17,3 +17,18 @@ create table tbl_payment
     payment_status        request_status default 'await'::request_status not null,
     payment_paid_datetime timestamp
 );
+
+-- 순서대로
+ALTER TABLE tbl_payment
+    ALTER COLUMN payment_status DROP DEFAULT;
+
+ALTER TABLE tbl_payment
+    ALTER COLUMN payment_status TYPE status
+        USING payment_status::text::status;
+
+ALTER TABLE tbl_payment
+    ALTER COLUMN payment_status SET DEFAULT 'active'::status;
+
+ALTER TABLE tbl_payment
+    ALTER COLUMN payment_status SET NOT NULL;
+
