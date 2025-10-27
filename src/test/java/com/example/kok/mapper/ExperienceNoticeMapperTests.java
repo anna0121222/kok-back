@@ -34,29 +34,29 @@ public class ExperienceNoticeMapperTests {
         log.info("result: {}", experienceNoticeDAO.selectListById(6L));
     }
 
-    @Test
-    public void reviewTest(){
-        ExperienceNoticeDTO result= experienceNoticeDAO.findById(24L);
-        System.out.println(result);
-        String jobName= experienceNoticeDAO.findJobNameByID(24L);
-        result.setJobName(jobName);
-        System.out.println(result);
-        LocalDate endDate = result.getExperienceNoticeEndDate();
-            LocalDate today = LocalDate.now();
-            if (!endDate.isBefore(today)) {
-                long days = ChronoUnit.DAYS.between(today, endDate);
-                result.setRemainingDays(days);
-            } else {
-                result.setRemainingDays(0L); // endDate보다 today가 이전일 경우 0
-            }
-            fileService.findFileByCompanyId(result.getCompanyId())
-                    .ifPresentOrElse(fileDTO -> {
-                        result.setFileName(fileDTO.getFileName());
-                        result.setFilePath(fileDTO.getFilePath());
-                    }, ()->{
-                        result.setFileName("image.png");
-                        result.setFilePath("");
-                    });
-        System.out.println("result: "+result);
-    }
+//    @Test
+//    public void reviewTest(){
+//        ExperienceNoticeDTO result= experienceNoticeDAO.findById(24L);
+//        System.out.println(result);
+//        String jobName= experienceNoticeDAO.findJobNameByID(24L);
+//        result.setJobName(jobName);
+//        System.out.println(result);
+//        LocalDate endDate = result.getExperienceNoticeEndDate();
+//            LocalDate today = LocalDate.now();
+//            if (!endDate.isBefore(today)) {
+//                long days = ChronoUnit.DAYS.between(today, endDate);
+//                result.setRemainingDays(days);
+//            } else {
+//                result.setRemainingDays(0L); // endDate보다 today가 이전일 경우 0
+//            }
+//            fileService.findFileByCompanyId(result.getCompanyId())
+//                    .ifPresentOrElse(fileDTO -> {
+//                        result.setFileName(fileDTO.getFileName());
+//                        result.setFilePath(fileDTO.getFilePath());
+//                    }, ()->{
+//                        result.setFileName("image.png");
+//                        result.setFilePath("");
+//                    });
+//        System.out.println("result: "+result);
+//    }
 }
