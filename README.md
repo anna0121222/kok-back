@@ -109,10 +109,6 @@ KOK은 기업의 단기 공백(휴가, 연차, 출장 등)으로 생긴 빈자�
 #### 🎯 진척도
 <img width="412" height="248" alt="화면진척도" src="https://github.com/user-attachments/assets/efce781b-2398-4392-aed5-ecf284221545" />
 
-#### 🗄️ ERD
-<img width="3400" height="1810" alt="erd" src="https://github.com/user-attachments/assets/d4aa66cf-548d-4008-bfd4-24102d51da38" />
-
-
 <br>
 
 ### ⚙️ Back-End
@@ -202,6 +198,10 @@ KOK은 기업의 단기 공백(휴가, 연차, 출장 등)으로 생긴 빈자�
 
 #### 🎯 진척도
 <img width="782" height="171" alt="서버진척도" src="https://github.com/user-attachments/assets/3e68375a-65b7-4a5f-a19d-bfa45e57c3ef" />
+
+#### 🗄️ ERD
+<img width="8346" height="6562" alt="diagram" src="https://github.com/user-attachments/assets/817028e1-2ee5-43de-ac15-9b792abefead" />
+
 
 <br>
 
