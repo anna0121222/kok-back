@@ -162,14 +162,14 @@ kakaoLoginButton.addEventListener("click", (e) => {
     if(window.innerWidth<1023){
         console.log("모바일 로그인")
         window.location.href = "/oauth2/authorization/kakao";
-    }else{window.location.href = "http://localhost:10000/oauth2/authorization/kakao";}
+    }else{window.location.href = "/oauth2/authorization/kakao";}
 });
 // 네이버 로그인
 const naverLoginButton = document.getElementById("naver-login");
 naverLoginButton.addEventListener("click", (e) => {
     if(window.innerWidth<1023){
         window.location.href = "/oauth2/authorization/naver";
-    }else{window.location.href = "http://localhost:10000/oauth2/authorization/naver";}
+    }else{window.location.href = "/oauth2/authorization/naver";}
 });
 
 // 구글 로그인
@@ -177,5 +177,5 @@ const googleLoginButton = document.getElementById("google-login");
 googleLoginButton.addEventListener("click", (e) => {
     if(window.innerWidth<1023){
         window.location.href = "/oauth2/authorization/google";
-    }else{window.location.href = "http://localhost:10000/oauth2/authorization/google";}
+    }else{window.location.href = "/oauth2/authorization/google";}
 });
