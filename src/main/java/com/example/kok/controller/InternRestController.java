@@ -164,5 +164,4 @@ public class InternRestController implements InternRestControllerDocs {
     public boolean isRequested(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         boolean result=evaluationService.isReviewed(customUserDetails.getId());
         return result;
-    }
 }
