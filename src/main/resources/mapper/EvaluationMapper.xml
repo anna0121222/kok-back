@@ -6,4 +6,8 @@
         insert into tbl_evaluation(evaluation_content, evaluation_avg_score, request_experience_id, member_id, company_id)
         values (#{evaluationContent}, #{evaluationAvgScore}, #{requestExperienceId}, #{memberId}, #{companyId})
     </insert>
+<!--    개수 조회-->
+<!--    <select id="selectCount">-->
+<!--        select tbl_-->
+<!--    </select>-->
 </mapper>
