@@ -173,9 +173,9 @@ naverLoginButton.addEventListener("click", (e) => {
 });
 
 // 구글 로그인
-const googleLoginButton = document.getElementById("google-login");
-googleLoginButton.addEventListener("click", (e) => {
-    if(window.innerWidth<1023){
-        window.location.href = "/oauth2/authorization/google";
-    }else{window.location.href = "/oauth2/authorization/google";}
-});
+// const googleLoginButton = document.getElementById("google-login");
+// googleLoginButton.addEventListener("click", (e) => {
+//     if(window.innerWidth<1023){
+//         window.location.href = "/oauth2/authorization/google";
+//     }else{window.location.href = "/oauth2/authorization/google";}
+// });
