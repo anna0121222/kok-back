@@ -165,48 +165,24 @@ btnSubmit.addEventListener("click", async () => {
     const url = !notice.internNoticeTitle ? "/create" : `/edit`;
     jobCategoryId.value = dropdownContainer.dataset.id;
 
-    const expStartInput = document.querySelector("#experience-start-date");
-    const expEndInput = document.querySelector("#experience-end-date");
-    const postStartInput = document.querySelector("#experience-notice-start-date");
-    const postEndInput = document.querySelector("#experience-notice-end-date");
+    const postStartInput = document.querySelector("#intern-notice-start-date");
+    const postEndInput = document.querySelector("#intern-notice-end-date");
 
-    const expStartTS = parseYmd(expStartInput.value);
-    const expEndTS   = parseYmd(expEndInput.value);
     const postStartTS = parseYmd(postStartInput.value);
     const postEndTS   = parseYmd(postEndInput.value);
 
     const today = new Date();
     today.setHours(0,0,0,0);
 
-    if (expStartTS < today.getTime()) {
-        alert("체험 시작일은 오늘 이후 날짜여야 합니다.");
-        document.querySelector("#experience-start-date").style.border = "2px solid red";
-        return;
-    }
-
-    if (expEndTS < today.getTime()) {
-        alert("체험 종료일은 오늘 이후 날짜여야 합니다.");
-        document.querySelector("#experience-end-date").style.border = "2px solid red";
-        return;
-    }
-
     if (postStartTS < today.getTime()) {
         alert("게시 시작일은 오늘 이후 날짜여야 합니다.");
-        document.querySelector("#experience-notice-start-date").style.border = "2px solid red";
+        document.querySelector("#intern-notice-start-date").style.border = "2px solid red";
         return;
     }
 
     if (postEndTS < today.getTime()) {
         alert("게시 종료일은 오늘 이후 날짜여야 합니다.");
-        document.querySelector("#experience-notice-end-date").style.border = "2px solid red";
-        return;
-    }
-
-    // 체험 시작 > 체험 종료
-    if (expStartTS > expEndTS) {
-        alert("체험 시작일은 체험 종료일과 같거나 이전이어야 합니다.");
-        expStartInput.style.border = "2px solid red";
-        expEndInput.style.border = "2px solid red";
+        document.querySelector("#intern-notice-end-date").style.border = "2px solid red";
         return;
     }
 
@@ -215,14 +191,6 @@ btnSubmit.addEventListener("click", async () => {
         alert("게시 시작일은 게시 종료일과 같거나 이전이어야 합니다.");
         postStartInput.style.border = "2px solid red";
         postEndInput.style.border = "2px solid red";
-        return;
-    }
-
-    // 체험 시작 < 게시 시작
-    if (expStartTS < postStartTS) {
-        alert("체험 시작일은 게시 시작일 이후여야 합니다.");
-        expStartInput.style.border = "2px solid red";
-        postStartInput.style.border = "2px solid red";
         return;
     }
 
