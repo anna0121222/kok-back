@@ -831,6 +831,17 @@ const showStorage=async ()=>{
     const request=await myPageService.loadStorage();
     await myPageLayout.showStorage(request);
 
+    // 팝업 닫기 버튼
+    const popupRemoves = document.querySelectorAll(".popup-close");
+    popupRemoves.forEach((closeBtn) => {
+        closeBtn.addEventListener("click", () => {
+            const popup = closeBtn.closest(".popup-container");
+            if (popup) {
+                popup.classList.remove("active");
+            }
+        });
+    });
+
     const deleteStorageBtns=document.querySelectorAll(".btn-check-container");
     deleteStorageBtns.forEach((btn)=>{
         btn.addEventListener("click", async () => {
