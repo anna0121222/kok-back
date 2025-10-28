@@ -46,6 +46,7 @@ public class ConsoleProfileController {
             @RequestParam(value = "profileFile", required = false) MultipartFile profileFile,
             @RequestParam(value = "backgroundFile", required = false) MultipartFile backgroundFile
     ) {
+
         List<MultipartFile> multipartFiles = new ArrayList<>();
 
         if (profileFile != null && !profileFile.isEmpty()) {
