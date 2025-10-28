@@ -1092,40 +1092,6 @@ const myPageLayout = (() => {
                                             <form action="">
                                                 <div class="popup-body">
                                                     <div class="form-list form-grid">
-<!--                                                        <div class="form-item flex-1-1">-->
-<!--                                                            <label class="form-label" for="type-input">유형<span class="must">*</span></label>-->
-<!--                                                            <div class="form-field form-field-dropdown">-->
-<!--                                                                <input type="text" id="type-input" class="dropdown-trigger" data-target="#dropdown2" placeholder="선택 또는 입력" readonly>-->
-
-<!--                                                                <div id="dropdown2" class="option-menu">-->
-<!--                                                                    <ul class="option-list">-->
-<!--                                                                        <li class="option-item option-input">-->
-<!--                                                                            <button type="button" class="option-btn">-->
-<!--                                                                                <svg aria-label="icon" color="foregrounds.neutral.primary" fill="currentColor" height="24" role="img" width="24">-->
-<!--                                                                                    <path clip-rule="evenodd" d="M12 4.2a.8.8 0 0 1 .8.8v6.2H19a.8.8 0 0 1 0 1.6h-6.2V19a.8.8 0 0 1-1.6 0v-6.2H5a.8.8 0 0 1 0-1.6h6.2V5a.8.8 0 0 1 .8-.8" fill-rule="evenodd"></path>-->
-<!--                                                                                </svg>-->
-<!--                                                                                <p>직접 입력</p>-->
-<!--                                                                            </button>-->
-<!--                                                                        </li>-->
-<!--                                                                        <li class="option-item">-->
-<!--                                                                            <button type="button" class="option-btn">-->
-<!--                                                                                <p>이력서</p>-->
-<!--                                                                            </button>-->
-<!--                                                                        </li>-->
-<!--                                                                        <li class="option-item">-->
-<!--                                                                            <button type="button" class="option-btn">-->
-<!--                                                                                <p>포트폴리오</p>-->
-<!--                                                                            </button>-->
-<!--                                                                        </li>-->
-<!--                                                                        <li class="option-item">-->
-<!--                                                                            <button type="button" class="option-btn">-->
-<!--                                                                                <p>자기소개서</p>-->
-<!--                                                                            </button>-->
-<!--                                                                        </li>-->
-<!--                                                                    </ul>-->
-<!--                                                                </div>-->
-<!--                                                            </div>-->
-<!--                                                        </div>-->
                                                         <div class="form-item flex-3">
                                                             <label class="form-label" for="file-input">파일<span class="must">*</span></label>
                                                             <div class="form-field">
@@ -1203,40 +1169,6 @@ const myPageLayout = (() => {
                                             <form action="">
                                                 <div class="popup-body">
                                                     <div class="form-list form-grid">
-                                                        <div class="form-item flex-1-1">
-                                                            <label class="form-label" for="type-input">유형<span class="must">*</span></label>
-                                                            <div class="form-field form-field-dropdown">
-                                                                <input type="text" id="type-input" class="dropdown-trigger" data-target="#dropdown2" placeholder="선택 또는 입력" readonly>
-
-                                                                <div id="dropdown2" class="option-menu">
-                                                                    <ul class="option-list">
-                                                                        <li class="option-item option-input">
-                                                                            <button type="button" class="option-btn">
-                                                                                <svg aria-label="icon" color="foregrounds.neutral.primary" fill="currentColor" height="24" role="img" width="24">
-                                                                                    <path clip-rule="evenodd" d="M12 4.2a.8.8 0 0 1 .8.8v6.2H19a.8.8 0 0 1 0 1.6h-6.2V19a.8.8 0 0 1-1.6 0v-6.2H5a.8.8 0 0 1 0-1.6h6.2V5a.8.8 0 0 1 .8-.8" fill-rule="evenodd"></path>
-                                                                                </svg>
-                                                                                <p>직접 입력</p>
-                                                                            </button>
-                                                                        </li>
-                                                                        <li class="option-item">
-                                                                            <button type="button" class="option-btn">
-                                                                                <p>이력서</p>
-                                                                            </button>
-                                                                        </li>
-                                                                        <li class="option-item">
-                                                                            <button type="button" class="option-btn">
-                                                                                <p>포트폴리오</p>
-                                                                            </button>
-                                                                        </li>
-                                                                        <li class="option-item">
-                                                                            <button type="button" class="option-btn">
-                                                                                <p>자기소개서</p>
-                                                                            </button>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                         <div class="form-item flex-3">
                                                             <label class="form-label" for="file-input">파일<span class="must">*</span></label>
                                                             <div class="form-field">

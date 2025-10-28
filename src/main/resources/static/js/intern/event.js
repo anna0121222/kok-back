@@ -546,6 +546,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            const isReviewedPre=await fetch(`/api/interns/is-reviewed`);
+            const isReviewed=await isReviewedPre;
+            const isReviewedDetail=isReviewed;
+
+            console.log(isReviewedDetail);
+
+            if(isReviewedDetail){
+                textBox.textContent="체험 합격 후 평가를 한 번 이상 받아야 인턴 공고에 지원 가능합니다."
+                requestToast.classList.add("show");
+                showingToast=true;
+                setTimeout(() => {
+                    requestToast.classList.remove("show");
+                    showingToast = false;
+                }, 2000);
+                // showingToast=true;
+                return;
+            }
+
             nowInternId=intId;
 
             // console.log(nowInternId);
