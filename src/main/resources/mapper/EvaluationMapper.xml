@@ -8,6 +8,6 @@
     </insert>
 <!--    개수 조회-->
 <!--    <select id="selectCount">-->
-<!--        select tbl_-->
+<!--        select tbl_evaluation-->
 <!--    </select>-->
 </mapper>
