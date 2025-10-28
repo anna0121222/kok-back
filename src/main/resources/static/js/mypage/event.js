@@ -831,6 +831,17 @@ const showStorage=async ()=>{
     const request=await myPageService.loadStorage();
     await myPageLayout.showStorage(request);
 
+    // 팝업 닫기 버튼
+    const popupRemoves = document.querySelectorAll(".popup-close");
+    popupRemoves.forEach((closeBtn) => {
+        closeBtn.addEventListener("click", () => {
+            const popup = closeBtn.closest(".popup-container");
+            if (popup) {
+                popup.classList.remove("active");
+            }
+        });
+    });
+
     const deleteStorageBtns=document.querySelectorAll(".btn-check-container");
     deleteStorageBtns.forEach((btn)=>{
         btn.addEventListener("click", async () => {
@@ -861,13 +872,14 @@ const showStorage=async ()=>{
 
         fileInput.addEventListener("change", () => {
             if (fileInput.files.length > 0&&fileInput.files.length<2) {
-                console.log("화면에 파일 이름 띄우기");
+                // console.log("화면에 파일 이름 띄우기");
                 formFileLabel.textContent = fileInput.files[0].name;
             }else if(fileInput.files.length>1){
                 formFileLabel.textContent=fileInput.files[0].name+" 외 "+(fileInput.files.length-1)+"개";
             } else {
                 formFileLabel.textContent = "파일";
             }
+            console.log("선택된 파일 수:", fileInput.files.length);
         });
     //     등록하기 눌렀을 때
         const saveBtn=document.getElementById("pop-apply");

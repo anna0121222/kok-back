@@ -15,4 +15,9 @@ public class EvaluationDAO {
     public void insertEvaluation(EvaluationDTO evaluation) {
         evaluationMapper.insertEvaluation(evaluation);
     }
+
+//    평가 개수 세기
+    public int selectCount(Long id) {
+        return evaluationMapper.selectCount(id);
+    }
 }

@@ -16,5 +16,13 @@ create table tbl_request_intern
         constraint fk_request_intern_evaluation
             references tbl_evaluation,
     created_datetime        timestamp      default now(),
-    updated_datetime        timestamp      default now()
+    updated_datetime        timestamp      default now(),
+    request_intern_member_name  varchar(255)                                   not null,
+    request_intern_member_email varchar(255)                                   not null,
+    request_intern_member_phone varchar(255)                                   not null,
+    file_id                         bigint                                         not null
+        constraint fk_request_intern_file
+            references tbl_file,
+    request_intern_member_url   varchar(255),
+    request_intern_active       status         default 'active'::status        not null
 );
