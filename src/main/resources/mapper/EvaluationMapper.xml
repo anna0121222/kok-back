@@ -7,7 +7,9 @@
         values (#{evaluationContent}, #{evaluationAvgScore}, #{requestExperienceId}, #{memberId}, #{companyId})
     </insert>
 <!--    개수 조회-->
-<!--    <select id="selectCount">-->
-<!--        select tbl_evaluation-->
-<!--    </select>-->
+    <select id="selectCount">
+        select count(*)
+        from tbl_evaluation
+        where member_id=#{id}
+    </select>
 </mapper>
