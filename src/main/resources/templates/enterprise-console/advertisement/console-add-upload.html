@@ -143,7 +143,8 @@
                                         </div>
                                         <div class="card-content">
                                             <div class="start-main">
-                                                <div class="start-price">￦<span class="price">200,000</span></div>
+                                                <div th:if="${page} == 'create'" class="start-price">￦<span class="price">200,000</span></div>
+                                                <div th:unless="${page} == 'create'" class="start-price">￦<span class="price" th:text="${#numbers.formatInteger(notice.paymentPrice, 3, 'COMMA')}">200,000</span></div>
                                                 <div class="start-explain">
                                                     <div class="explains">일일 비용: ￦200,000</div>
                                                     <div class="explains" id="add-date-text">광고 기간: 1일</div>
