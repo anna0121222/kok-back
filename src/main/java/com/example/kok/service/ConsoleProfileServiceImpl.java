@@ -105,9 +105,27 @@ public class ConsoleProfileServiceImpl implements ConsoleProfileService {
 //        이미지 업로드 처리 (프로필 + 배경)
         if (multipartFiles != null && !multipartFiles.isEmpty()) {
 
+            boolean hasProfileFile = false;
+            boolean hasBackgroundFile = false;
+
+            for (MultipartFile multipartFile : multipartFiles) {
+                if (!multipartFile.isEmpty()) {
+                    if (multipartFile.getName().contains("background")) {
+                        hasBackgroundFile = true;
+                    } else {
+                        hasProfileFile = true;
+                    }
+                }
+            }
+
             // 기존 파일 및 연결 삭제
-            consoleProfileFileDAO.deleteAllFilesByProfileId(companyProfileDTO.getCompanyId());
-            consoleBackgroundFileDAO.deleteAllFilesByProfileId(companyProfileDTO.getCompanyId());
+            if (hasProfileFile) {
+                consoleProfileFileDAO.deleteAllFilesByProfileId(companyProfileDTO.getCompanyId());
+            }
+
+            if (hasBackgroundFile) {
+                consoleBackgroundFileDAO.deleteAllFilesByProfileId(companyProfileDTO.getCompanyId());
+            }
 
             multipartFiles.forEach(multipartFile -> {
                 if (multipartFile.isEmpty()) return;
