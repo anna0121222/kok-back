@@ -153,7 +153,7 @@ loginButton.addEventListener("click", (e) => {
         toastLogin.addEventListener("mouseout", (e) => {
             toastPassword.classList.remove("show-red");
         });
-    }
+    
     
 });
 // 카카오 로그인
