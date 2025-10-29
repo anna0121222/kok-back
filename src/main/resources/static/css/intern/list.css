@@ -10,6 +10,12 @@
     padding: 12px;
 }
 
+.no-results {
+    justify-content: center;
+    display: flex;
+    padding-top: 50%;
+}
+
 .search-box {
     display: flex;
     justify-content: space-between;
