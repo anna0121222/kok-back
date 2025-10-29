@@ -60,7 +60,7 @@ const loginButton = document.querySelector('.login-button');
 
 emailInput.addEventListener("keyup", (e) => {
     if (emailInput.value.length > 0 && passwordInput.value.length > 0) {
-        loginButton.classList.remove('login-disabled'); 
+        loginButton.classList.remove('login-disabled');
     } else if (emailInput.value.length === 0 || passwordInput.value.length === 0) {
         loginButton.classList.add('login-disabled');
     }
@@ -153,8 +153,8 @@ loginButton.addEventListener("click", (e) => {
         toastLogin.addEventListener("mouseout", (e) => {
             toastPassword.classList.remove("show-red");
         });
-    
-    
+    }
+
 });
 // 카카오 로그인
 const kakaoLoginButton = document.getElementById("kakao-login");
