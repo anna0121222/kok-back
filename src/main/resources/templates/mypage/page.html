@@ -84,7 +84,7 @@
                                     <a href="">
                                         <div class="content-11">
                                             <p class="content-12">게시물</p>
-                                            <p class="content-13">0</p>
+                                            <p class="content-13" th:text="${postCount}"></p>
                                         </div>
                                     </a>
 <!--                                    <div class="content-11">-->
@@ -163,7 +163,7 @@
                         </div>
                         <!-- 지원내역 -->
                         <div class="post-1" id="request-list-wrap">
-                            <div class="post-2" style="align-items: start;">
+                            <div class="post-2">
                                 <div id="experience" style="display: contents;">
                                     <!-- 지원 내역이 없을 때 -->
                                     <!-- <div class="post-3">                        
@@ -192,7 +192,7 @@
                                         </div>
                                     </div> -->
                                     <!-- 지원 내역이 있을 때 -->
-                                    <div class="payment">
+                                    <div class="payment exp-request-div">
                                         <table class="payment-1">
                                             <!-- 목록 -->
                                             <thead>
@@ -237,10 +237,10 @@
 
                         <!-- 지원내역 -->
                         <div class="post-1" id="intern-list-wrap">
-                            <div class="post-2" style="align-items: start;">
+                            <div class="post-2">
                                 <div id="interns" style="display: contents;">
                                     <!-- 지원 내역이 있을 때 -->
-                                    <div class="payment">
+                                    <div class="payment int-request-div">
                                         <table class="payment-1">
                                             <!-- 목록 -->
                                             <thead>
@@ -284,8 +284,8 @@
                         </div>
                         <!-- 결제내역 -->
                         <div class="post-1" id="payment-list-wrap">
-                            <div class="post-2" style="align-items: start;">
-                                <div id="" style="display: contents;">
+                            <div class="post-2">
+                                <div id="" style="display: contents;" class="payment-wrap-div">
                                     <!-- 결제 내역이 없을 때 -->
                                     <!-- <div class="post-3">                        
                                         <div class="post-13" style="padding-right: 0;padding-right: 0px;padding-left: 0; justify-content: center; display: flex;">
