@@ -3,7 +3,7 @@ const mobileSidebar = document.querySelector(".mobile-sidebar");
 
 const overlay = document.createElement("div");
 overlay.classList.add("sidebar-overlay");
-document.body.appendChild(overlay);
+mobileSidebar.appendChild(overlay);
 
 topLeftBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
