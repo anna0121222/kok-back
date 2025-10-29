@@ -60,7 +60,7 @@ const loginButton = document.querySelector('.login-button');
 
 emailInput.addEventListener("keyup", (e) => {
     if (emailInput.value.length > 0 && passwordInput.value.length > 0) {
-        loginButton.classList.remove('login-disabled'); 
+        loginButton.classList.remove('login-disabled');
     } else if (emailInput.value.length === 0 || passwordInput.value.length === 0) {
         loginButton.classList.add('login-disabled');
     }
@@ -85,7 +85,7 @@ loginButton.addEventListener("click",async (e)=>{
             if(checkRole.value==='member'){location.href='/experience/list';}
             else{location.href='/enterprise-console';}
 
-        }
+        }else{showLoginErrorToast();}
 
 });
 
@@ -154,7 +154,7 @@ loginButton.addEventListener("click", (e) => {
             toastPassword.classList.remove("show-red");
         });
     }
-    
+
 });
 // 카카오 로그인
 const kakaoLoginButton = document.getElementById("kakao-login");
