@@ -722,11 +722,24 @@ const myPageLayout = (() => {
     }
 
     const showExperienceRequest = (request) => {
+        const noContainer=document.querySelector('.exp-request-div');
         const container = document.querySelector('.exp-request-container');
-        if (!container) return;
 
         if (!Array.isArray(request) || request.length === 0) {
-            container.innerHTML = '<p class="no-results">검색 결과가 없습니다.</p>';
+            noContainer.innerHTML = '<div class="post-3">\n' +
+                '                                        <div class="post-13" style="padding-right: 0;padding-left: 0; justify-content: center; display: flex;">\n' +
+                '                                            <div class="post-14" style="margin: 0 auto;">\n' +
+                '                                                <div class="post-15">\n' +
+                '                                                    <div class="post-8" style="margin: 0 auto;">\n' +
+                '                                                        <span>아직 지원한 체험 공고가 없습니다.</span>\n' +
+                '                                                    </div>\n' +
+                '                                                </div>\n' +
+                '                                                <div class="post-9" style="margin: 0 auto;">\n' +
+                '                                                    <p class="post-10">체험 공고에 지원하면 이곳에서 모아볼 수 있습니다.</p>\n' +
+                '                                                </div>\n' +
+                '                                            </div>\n' +
+                '                                        </div>\n' +
+                '                                    </div>';
             return;
         }
 
@@ -779,11 +792,24 @@ const myPageLayout = (() => {
     };
 
     const showInternRequest = (request) => {
+        const noContainer=document.querySelector('.int-request-div');
         const container = document.querySelector('.int-request-container');
-        if (!container) return;
 
         if (!Array.isArray(request) || request.length === 0) {
-            container.innerHTML = '<p class="no-results">검색 결과가 없습니다.</p>';
+            noContainer.innerHTML = '<div class="post-3">\n' +
+                '                                        <div class="post-13" style="padding-right: 0;padding-left: 0; justify-content: center; display: flex;">\n' +
+                '                                            <div class="post-14" style="margin: 0 auto;">\n' +
+                '                                                <div class="post-15">\n' +
+                '                                                    <div class="post-8" style="margin: 0 auto;">\n' +
+                '                                                        <span>아직 지원한 인턴 공고가 없습니다.</span>\n' +
+                '                                                    </div>\n' +
+                '                                                </div>\n' +
+                '                                                <div class="post-9" style="margin: 0 auto;">\n' +
+                '                                                    <p class="post-10">인턴 공고에 지원하면 이곳에서 모아볼 수 있습니다.</p>\n' +
+                '                                                </div>\n' +
+                '                                            </div>\n' +
+                '                                        </div>\n' +
+                '                                    </div>';
             return;
         }
 
@@ -833,11 +859,25 @@ const myPageLayout = (() => {
     };
 
     const showPaymentList=(payments)=>{
+        const noContainer=document.querySelector('.payment-wrap-div');
         const container=document.querySelector(".payment-tbody");
         if(!container) return;
 
         if (!Array.isArray(payments) || payments.length === 0) {
-            container.innerHTML = '<p class="no-results">검색 결과가 없습니다.</p>';
+            noContainer.innerHTML = '<div class="post-3">\n' +
+                '                                        <div class="post-13" style="padding-right: 0;padding-left: 0; justify-content: center; display: flex;">\n' +
+                '                                            <div class="post-14" style="margin: 0 auto;">\n' +
+                '                                                <div class="post-15">\n' +
+                '                                                    <div class="post-8" style="margin: 0 auto;">\n' +
+                '                                                        <span>아직 결제 내역이 없습니다.</span>\n' +
+                '                                                    </div>\n' +
+                '                                                </div>\n' +
+                '                                                <div class="post-9" style="margin: 0 auto;">\n' +
+                '                                                    <p class="post-10"></p>\n' +
+                '                                                </div>\n' +
+                '                                            </div>\n' +
+                '                                        </div>\n' +
+                '                                    </div>';
             return;
         }
 
@@ -1209,12 +1249,19 @@ const myPageLayout = (() => {
                     extension = "default";
                 }
                 html+=`<li class="form-item" data-file-id="${fileId}">
-                                            <div class="file-container">
+                                            <div class="file-container" style="width: 88%;">
                                                 <div class="file-icon">
                                                     <img src="/images/experience/icon_file_${extension}.svg" alt="">
                                                 </div>
-                                                <div class="file-info">
-                                                    <p class="file-label">${originName}</p>
+                                                <div class="file-info" style="width: 80%;">
+                                                    <p class="file-label" style="
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* width: 80%; */
+    display:  -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+">${originName}</p>
 <!--                                                    <span class="file-name">파일이름.xlsx</span>-->
                                                 </div>
                                             </div>
