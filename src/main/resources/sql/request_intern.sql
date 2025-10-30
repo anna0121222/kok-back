@@ -1,28 +1,18 @@
-create table tbl_request_intern
+create table tbl_evaluation
 (
-    id                      bigint generated always as identity
+    id                    bigint generated always as identity
         primary key,
-    request_intern_status   request_status default 'await'::request_status not null,
-    member_id               bigint                                         not null
-        constraint fk_request_intern_member
+    evaluation_content    varchar(255)     not null,
+    evaluation_avg_score  double precision not null,
+    request_experience_id bigint           not null
+        constraint fk_evaluation_request_experience
+            references tbl_request_experience,
+    member_id             bigint           not null
+        constraint fk_evaluation_member
             references tbl_member,
-    intern_notice_id        bigint                                         not null
-        constraint fk_request_intern_intern_notice
-            references tbl_intern_notice,
-    member_alarm_setting_id bigint                                         not null
-        constraint fk_request_intern_member_alarm_setting
-            references tbl_member_alarm_setting,
-    evaluation_id           bigint                                         not null
-        constraint fk_request_intern_evaluation
-            references tbl_evaluation,
-    created_datetime        timestamp      default now(),
-    updated_datetime        timestamp      default now(),
-    request_intern_member_name  varchar(255)                                   not null,
-    request_intern_member_email varchar(255)                                   not null,
-    request_intern_member_phone varchar(255)                                   not null,
-    file_id                         bigint                                         not null
-        constraint fk_request_intern_file
-            references tbl_file,
-    request_intern_member_url   varchar(255),
-    request_intern_active       status         default 'active'::status        not null
+    company_id            bigint           not null
+        constraint fk_evaluation_company
+            references tbl_company,
+    created_datetime      timestamp default now(),
+    updated_datetime      timestamp default now()
 );
