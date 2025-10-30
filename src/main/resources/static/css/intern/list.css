@@ -10,6 +10,10 @@
     padding: 12px;
 }
 
+.int-wrapper{
+    overflow-y: auto;
+}
+
 .no-results {
     justify-content: center;
     display: flex;
