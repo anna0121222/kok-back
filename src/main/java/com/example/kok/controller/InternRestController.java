@@ -162,7 +162,7 @@ public class InternRestController implements InternRestControllerDocs {
 //    평가 있는지 여부
     @GetMapping("/is-reviewed")
     public boolean isRequested(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        boolean result=evaluationService.isReviewed(customUserDetails.getId());
+        boolean result = evaluationService.isReviewed(customUserDetails.getId());
         return result;
     }
 }
