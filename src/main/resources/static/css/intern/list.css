@@ -10,6 +10,10 @@
     padding: 12px;
 }
 
+.int-wrapper{
+    overflow-y: auto;
+}
+
 .no-results {
     justify-content: center;
     display: flex;
@@ -1940,6 +1944,11 @@ input:-internal-autofill-selected {
 @media (max-width: 1023px) {
     .main-wrap .mob {
         width: 100%;
+        height: calc(var(--mobile-window) * 100);
+    }
+
+    :root {
+      --mobile-window: 1vh;
     }
 
     .display-none-list{
