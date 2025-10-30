@@ -58,4 +58,12 @@
         and member_id=#{memberId}
         and request_experience_active='active'
     </select>
+
+<!--    지원 id 조회-->
+    <select id="selectId">
+        select id
+        from tbl_request_experience
+        where member_id=#{memberId}
+        and experience_notice_id=#{experienceId}
+    </select>
 </mapper>
