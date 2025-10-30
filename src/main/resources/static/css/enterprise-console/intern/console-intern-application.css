@@ -175,6 +175,7 @@ div.home-wrap-inner-2{
 
 div.home-top-wrap{
     display: flex;
+    height: 64px;
     margin-block-start: 0px;
     margin-block-end: 24px;
 }

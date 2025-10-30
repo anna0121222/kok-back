@@ -1,15 +1,15 @@
+
 package com.example.kok.mapper;
 
 import com.example.kok.dto.UserDTO;
 import com.example.kok.dto.UserMemberDTO;
-import com.example.kok.repository.MemberAlarmSettingDAO;
-import com.example.kok.repository.MemberDAO;
-import com.example.kok.repository.RequestExperienceDAO;
-import com.example.kok.repository.UserDAO;
+import com.example.kok.repository.*;
+import com.example.kok.service.MainpageService;
 import com.example.kok.service.MemberService;
 import com.example.kok.service.S3Service;
 import com.example.kok.util.Criteria;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,28 +32,16 @@ public class MainpageTests {
     @Autowired
     private MemberAlarmSettingDAO  memberAlarmSettingDAO;
     @Autowired
-    private UserDAO userDAO;
+    private FollowDAO followDAO;
+    @Autowired
+    private MainpageService mainpageService;
 
     @Test
     public void mainpageTest(){
-        long id = 2;
+        if(followDAO.selectAllFollow()>0) {
+            Assertions.assertThat(mainpageService.findPopularCompanies().toString());
+        }
     }
-    @Test
-    public void updateTest(){
-        String keyword = "member_post_like_alarm";
-        Long id = 2L;
-        memberAlarmSettingDAO.updateByKeywordToActive(id, keyword);
-    }
-    @Test
-    public void updateTest2(){
-        String keyword = "member_post_like_alarm";
-        Long id = 2L;
-        memberAlarmSettingDAO.updateByKeywordToInactive(id, keyword);
-    }
-    @Test
-    public void getUserDTO(){
 
-        log.info(s3Service.getPreSignedUrl("2025/10/14/745ae0c3-6b01-4570-9301-adbab5ea3803.png", Duration.ofDays(1L)));
-    }
 
 }

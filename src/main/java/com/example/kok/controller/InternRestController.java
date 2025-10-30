@@ -3,10 +3,8 @@ package com.example.kok.controller;
 import com.example.kok.auth.CustomUserDetails;
 import com.example.kok.dto.*;
 import com.example.kok.repository.CompanyProfileFileDAO;
-import com.example.kok.service.CompanyService;
-import com.example.kok.service.InternNoticeService;
-import com.example.kok.service.RequestInternService;
-import com.example.kok.service.UserService;
+import com.example.kok.repository.EvaluationDAO;
+import com.example.kok.service.*;
 import com.example.kok.util.Search;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +24,7 @@ public class InternRestController implements InternRestControllerDocs {
     private final CompanyService companyService;
     private final RequestInternService requestInternService;
     private final UserService userService;
+    private final EvaluationService evaluationService;
 
 //    목록
     @GetMapping("/{page}")
@@ -126,7 +125,7 @@ public class InternRestController implements InternRestControllerDocs {
     }
 
     //    지원 여부 판별
-    @GetMapping("is-requested")
+    @GetMapping("/is-requested")
     public boolean isRequested(@RequestParam Long internId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails){
         if(customUserDetails!=null){
@@ -158,5 +157,12 @@ public class InternRestController implements InternRestControllerDocs {
         request.setInternNoticeId(requestInternDTO.getInternNoticeId());
         System.out.println(request);
         requestInternService.applyForIntern(request);
+    }
+
+//    평가 있는지 여부
+    @GetMapping("/is-reviewed")
+    public boolean isRequested(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        boolean result=evaluationService.isReviewed(customUserDetails.getId());
+        return result;
     }
 }
