@@ -36,4 +36,9 @@ public class RequestExperienceDAO {
             return false;
         }
     }
+
+//    지원서 id 조회
+    public Long findId(Long memberId, Long experienceId){
+        return requestExperienceMapper.selectId(memberId, experienceId);
+    }
 }
