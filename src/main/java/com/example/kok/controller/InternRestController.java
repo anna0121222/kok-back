@@ -140,24 +140,25 @@ public class InternRestController implements InternRestControllerDocs {
     }
 
 //    간편지원 완료
-    @PostMapping("/request")
-    public void requestIntern(@RequestBody RequestInternDTO requestInternDTO,
-                                  @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+@PostMapping("/request")
+public void requestIntern(@RequestBody RequestInternDTO requestInternDTO,
+                          @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 //        System.out.println(requestInternDTO);
 //        System.out.println(customUserDetails.getId());
-        RequestInternDTO request=new RequestInternDTO();
-        request.setRequestInternMemberName(requestInternDTO.getRequestInternMemberName());
-        request.setRequestInternMemberEmail(requestInternDTO.getRequestInternMemberEmail());
-        request.setRequestInternMemberPhone(requestInternDTO.getRequestInternMemberPhone());
-        if(requestInternDTO.getRequestInternMemberUrl()!=null){
-            request.setRequestInternMemberUrl(requestInternDTO.getRequestInternMemberUrl());
-        }
-        request.setFileId(requestInternDTO.getFileId());
-        request.setMemberId(customUserDetails.getId());
-        request.setInternNoticeId(requestInternDTO.getInternNoticeId());
-        System.out.println(request);
-        requestInternService.applyForIntern(request);
+    RequestInternDTO request=new RequestInternDTO();
+    request.setRequestInternMemberName(requestInternDTO.getRequestInternMemberName());
+    request.setRequestInternMemberEmail(requestInternDTO.getRequestInternMemberEmail());
+    request.setRequestInternMemberPhone(requestInternDTO.getRequestInternMemberPhone());
+    request.setEvaluationId(requestInternDTO.getEvaluationId());
+    if(requestInternDTO.getRequestInternMemberUrl()!=null){
+        request.setRequestInternMemberUrl(requestInternDTO.getRequestInternMemberUrl());
     }
+    request.setFileId(requestInternDTO.getFileId());
+    request.setMemberId(customUserDetails.getId());
+    request.setInternNoticeId(requestInternDTO.getInternNoticeId());
+    System.out.println(request);
+    requestInternService.applyForIntern(request);
+}
 
 //    평가 있는지 여부
     @GetMapping("/is-reviewed")
