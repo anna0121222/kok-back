@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface RequestInternMapper {
-//    인턴지원 멤버 아이디로 조회
+//    회원 아이디로 인턴 지원서 최근 3개 조회
     public List<RequestInternDTO> selectRequestInternById(Long id);
 //    인턴 지원 내역 조회
     public List<RequestInternDTO> selectRequestInternByUserId(Long id,@Param("internId")Long internId);

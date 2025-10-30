@@ -97,7 +97,7 @@ public class CompanyServiceImpl implements CompanyService {
         AdminCompanyDTO adminCompanyDTO = companyDAO.selectCompany(userId).orElse(null);
 
         if (adminCompanyDTO == null) {
-            return null; // 또는 throw new CompanyNotFoundException(...)
+            return null;
         }
 
         List<InternNoticeDTO> internNotices = internNoticeDAO.findInternNotices(userId);
@@ -105,6 +105,10 @@ public class CompanyServiceImpl implements CompanyService {
 
         adminCompanyDTO.setInternNoticeDTO(internNotices);
         adminCompanyDTO.setExperienceNoticeDTO(experienceNotices);
+
+        int followCount = companyDAO.findFollowCount(userId);
+        adminCompanyDTO.setFollowCount(followCount);
+
 
         return adminCompanyDTO;
     }

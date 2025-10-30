@@ -17,10 +17,11 @@ public class RequestInternDAO {
         requestInternMapper.insertRequest(requestInternDTO);
     }
 
-//    회원별 지원서 조회
+//    회원 아이디로 인턴 지원서 최근 3개 조회
     public List<RequestInternDTO> selectAllInternById(Long id){
         return requestInternMapper.selectRequestById(id);
     }
+
 //    인턴 지원 내역 조회
     public List<RequestInternDTO> selectAllInternByUserId(Long id,Long internId){
         return  requestInternMapper.selectRequestInternByUserId(id,internId);

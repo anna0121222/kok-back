@@ -130,16 +130,21 @@ public class MemberServiceImpl implements MemberService {
             return null;
         }
 
+//        멤버 아이디로 지원 목록 최근 3개 조회
         List<RequestExperienceDTO> requestExperiences =
                 requestExperienceDAO.selectAllRequestById(memberId);
+//        멤버 아이디로 인턴 지원서 최근 3개 조회
         List<RequestInternDTO> requestInterns =
                 requestInternDAO.selectAllInternById(memberId);
+//        멤버 아이디로 게시물 최근 3개 조회
         List<PostDTO> posts =
                 communityPostDAO.findPostById(memberId);
 
+//        멤버 아이디로 게시물 작성 수 조회
         int postsCount = communityPostDAO.findPostsCountByMemberId(memberId);
         userMemberDTO.setPostsCount(postsCount);
 
+//        팔로우 수 조회
         int followingCount = followDAO.selectFollowingCountByMemberId(memberId);
         userMemberDTO.setFollowingCount(followingCount);
 
