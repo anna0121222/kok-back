@@ -5,6 +5,7 @@ import com.example.kok.repository.*;
 import com.example.kok.util.Criteria;
 import com.example.kok.util.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyDAO companyDAO;
@@ -92,19 +94,31 @@ public class CompanyServiceImpl implements CompanyService {
 
 //    아이디로 기업 조회
     @Override
-    @Cacheable(value = "company", key="'company_' + #userId")
-    public Optional<AdminCompanyDTO> findCompany(Long userId) {
-        return companyDAO.selectCompany(userId)
-                .map(adminCompanyDTO -> {
-                    List<InternNoticeDTO> internNotices =
-                            internNoticeDAO.findInternNotices(userId);
-                    List<ExperienceNoticeDTO> experienceNotices =
-                            experienceNoticeDAO.selectListById(userId);
-                    adminCompanyDTO.setInternNoticeDTO(internNotices);
-                    adminCompanyDTO.setExperienceNoticeDTO(experienceNotices);
-                    return adminCompanyDTO;
-                });
-    }
+    @Cacheable(value = "company", key = "'company_' + #userId")
+    public AdminCompanyDTO findCompany(Long userId) {
+        AdminCompanyDTO adminCompanyDTO = companyDAO.selectCompany(userId).orElse(null);
+
+        if (adminCompanyDTO == null) {
+            return null;
+        }
+
+        List<InternNoticeDTO> internNotices = internNoticeDAO.findInternNotices(userId);
+        List<ExperienceNoticeDTO> experienceNotices = experienceNoticeDAO.selectListById(userId);
+        int internNoticeCount = internNoticeDAO.internNoticeCount(userId);
+        int  experienceNoticeCount = experienceNoticeDAO.selectListCountById(userId);
+
+        log.info("experienceNoticeCount {}:",  experienceNoticeCount);
+
+        adminCompanyDTO.setInternNoticeDTO(internNotices);
+        adminCompanyDTO.setExperienceNoticeDTO(experienceNotices);
+        adminCompanyDTO.setInternNoticeCount(internNoticeCount);
+        adminCompanyDTO.setExperienceNoticeCount(experienceNoticeCount);
+
+        int followCount = companyDAO.findFollowCount(userId);
+        adminCompanyDTO.setFollowCount(followCount);
+
+
+        return adminCompanyDTO;
 
 
     //    기업 목록
