@@ -1,5 +1,6 @@
 package com.example.kok.service;
 
+import com.example.kok.common.exception.MemberNotFoundException;
 import com.example.kok.domain.MemberVO;
 import com.example.kok.dto.*;
 import com.example.kok.repository.*;
@@ -123,7 +124,6 @@ public class MemberServiceImpl implements MemberService {
         UserMemberDTO userMemberDTO = memberDAO.selectMember(memberId)
                 .orElseThrow(MemberNotFoundException::new);
 
-
         if (userMemberDTO == null) {
             return null;
         }
@@ -159,6 +159,7 @@ public class MemberServiceImpl implements MemberService {
         userMemberDTO.setPosts(posts);
 
         return userMemberDTO;
+    }
 
     @Override
     public List<RequestExperienceDTO> findRequestExperienceByMemberId(Long memberId) {
