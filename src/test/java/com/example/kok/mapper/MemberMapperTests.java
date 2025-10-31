@@ -123,7 +123,4 @@ public class MemberMapperTests {
 //        memberMapper.updateProfileInfo(23L, "sdfg");
         memberDAO.updateInfo(23L, "ㄴㅇㄹ호");
     }
-
-    @Test
-    public
 }

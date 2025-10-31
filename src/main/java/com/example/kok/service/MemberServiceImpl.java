@@ -148,6 +148,9 @@ public class MemberServiceImpl implements MemberService {
         int followingCount = followDAO.selectFollowingCountByMemberId(memberId);
         userMemberDTO.setFollowingCount(followingCount);
 
+
+//
+
         userMemberDTO.setRequestExperiences(requestExperiences);
         userMemberDTO.setRequestInterns(requestInterns);
         userMemberDTO.setPosts(posts);
