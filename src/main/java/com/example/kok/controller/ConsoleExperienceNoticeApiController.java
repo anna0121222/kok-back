@@ -26,7 +26,7 @@ public class ConsoleExperienceNoticeApiController implements ConsoleExperienceNo
     private final EvaluationService evaluationService;
     private final RequestExperienceDAO requestExperienceDAO;
 
-    //    공고 목록
+//    공고 목록
     @GetMapping("/list/{page}")
     public ResponseEntity<ConsoleExperienceNoticeCriteriaDTO> list(
                                   @PathVariable("page") int page,
