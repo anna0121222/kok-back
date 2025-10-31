@@ -17,11 +17,10 @@ public class RequestExperienceDAO {
         requestExperienceMapper.insertRequest(requestExperienceDTO);
     }
 
-//    멤버 아이디로 지원 목록 최근 3개 조회
+//    회원별 지원서 조회
     public List<RequestExperienceDTO> selectAllRequestById(Long id){
         return requestExperienceMapper.selectRequestById(id);
     }
-
     //    지원 내역 목록 조회
     public List<RequestExperienceDTO> selectAllRequestByUserId(Long id,Long experienceId){
         return requestExperienceMapper.selectRequestByUserId(id,experienceId);

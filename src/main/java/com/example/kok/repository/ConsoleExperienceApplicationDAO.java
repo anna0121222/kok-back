@@ -33,7 +33,6 @@ public class ConsoleExperienceApplicationDAO {
 
 //    평가하기 가능 여부 판별
     public RequestExperienceDTO findEvalOk(Long experienceNoticeId, Long memberId) {
-        System.out.println(consoleExperienceMapper.selectEvalOk(experienceNoticeId, memberId));
         return consoleExperienceMapper.selectEvalOk(experienceNoticeId, memberId);
     }
 
