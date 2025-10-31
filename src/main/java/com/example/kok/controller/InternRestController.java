@@ -139,10 +139,10 @@ public class InternRestController implements InternRestControllerDocs {
         return false;
     }
 
-//    간편지원 완료
+    //    간편지원 완료
     @PostMapping("/request")
     public void requestIntern(@RequestBody RequestInternDTO requestInternDTO,
-                                  @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+                              @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 //        System.out.println(requestInternDTO);
 //        System.out.println(customUserDetails.getId());
         RequestInternDTO request=new RequestInternDTO();
@@ -162,7 +162,7 @@ public class InternRestController implements InternRestControllerDocs {
 //    평가 있는지 여부
     @GetMapping("/is-reviewed")
     public boolean isRequested(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        boolean result=evaluationService.isReviewed(customUserDetails.getId());
+        boolean result = evaluationService.isReviewed(customUserDetails.getId());
         return result;
     }
 }

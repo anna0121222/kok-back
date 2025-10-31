@@ -19,4 +19,7 @@ public List<RequestExperienceDTO> selectRequestByUserId(@Param("id") Long id,@Pa
 
 // 멤버 id와 공고 id로 지원서 개수 가져오기
     public int countRequest(Long experienceNoticeId, Long memberId);
+
+//    지원서 조회
+    public Long selectId(Long memberId, Long experienceId);
 }
