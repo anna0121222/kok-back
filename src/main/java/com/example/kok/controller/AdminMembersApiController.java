@@ -1,5 +1,6 @@
 package com.example.kok.controller;
 
+import com.example.kok.aop.aspect.annotation.LogStatus;
 import com.example.kok.dto.AdminMemberCriteriaDTO;
 import com.example.kok.dto.UserMemberDTO;
 import com.example.kok.service.MemberService;
@@ -35,8 +36,9 @@ public class AdminMembersApiController implements AdminMembersApiControllerDocs 
     }
 
     @GetMapping("detail/{id}")
+    @LogStatus
     public ResponseEntity<?> findUserMemberById(@PathVariable("id") Long id) {
-        Optional<UserMemberDTO> userMemberDTO = memberService.findMembersByMemberId(id);
+        UserMemberDTO userMemberDTO = memberService.findMembersByMemberId(id);
         return ResponseEntity.ok(userMemberDTO);
     }
 
