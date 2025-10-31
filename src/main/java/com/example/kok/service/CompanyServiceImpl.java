@@ -81,7 +81,7 @@ public class CompanyServiceImpl implements CompanyService {
 
         criteria.setHasMore(companies.size() == criteria.getRowCount() + 1);
 //        10개 가져왔으면, 마지막 1개 삭제
-        if(criteria.isHasMore()){
+        if (criteria.isHasMore()) {
             companies.remove(companies.size() - 1);
         }
 
@@ -92,7 +92,7 @@ public class CompanyServiceImpl implements CompanyService {
         return adminCompanyCriteriaDTO;
     }
 
-//    아이디로 기업 조회
+    //    아이디로 기업 조회
     @Override
     @Cacheable(value = "company", key = "'company_' + #userId")
     public AdminCompanyDTO findCompany(Long userId) {
@@ -105,9 +105,9 @@ public class CompanyServiceImpl implements CompanyService {
         List<InternNoticeDTO> internNotices = internNoticeDAO.findInternNotices(userId);
         List<ExperienceNoticeDTO> experienceNotices = experienceNoticeDAO.selectListById(userId);
         int internNoticeCount = internNoticeDAO.internNoticeCount(userId);
-        int  experienceNoticeCount = experienceNoticeDAO.selectListCountById(userId);
+        int experienceNoticeCount = experienceNoticeDAO.selectListCountById(userId);
 
-        log.info("experienceNoticeCount {}:",  experienceNoticeCount);
+        log.info("experienceNoticeCount {}:", experienceNoticeCount);
 
         adminCompanyDTO.setInternNoticeDTO(internNotices);
         adminCompanyDTO.setExperienceNoticeDTO(experienceNotices);
@@ -119,6 +119,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 
         return adminCompanyDTO;
+
+    }
 
 
     //    기업 목록
