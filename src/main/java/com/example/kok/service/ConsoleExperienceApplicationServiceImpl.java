@@ -20,7 +20,6 @@ import java.util.Optional;
 public class ConsoleExperienceApplicationServiceImpl implements ConsoleExperienceApplicationService {
     private final ConsoleExperienceApplicationDAO consoleExperienceApplicationDAO;
     private final S3Service s3Service;
-    private final EvaluationService evaluationService;
 
     @Override
     public ConsoleExperienceApplicantDTO getApplicationsDetail(Long memberId, Long experienceNoticeId) {
@@ -60,13 +59,12 @@ public class ConsoleExperienceApplicationServiceImpl implements ConsoleExperienc
     }
 
 //    평가하기 가능 여부 조회
-    public boolean isEvalOk(Long experienceNoticeId, Long memberId, Long requestExperienceId) {
+    public boolean isEvalOk(Long experienceNoticeId, Long memberId) {
         RequestExperienceDTO exp=consoleExperienceApplicationDAO.findEvalOk(experienceNoticeId, memberId);
-        boolean requested=evaluationService.isReviewedThis(memberId, requestExperienceId);
         LocalDate now = LocalDate.now();
         System.out.println("accept: "+exp.getRequestExperienceStatus());
         System.out.println("time: "+ exp.getExperienceEndDate().isBefore(now));
-        if(exp.getRequestExperienceStatus().equals(RequestStatus.ACCEPT)&&exp.getExperienceEndDate().isBefore(now)&&!requested){
+        if(exp.getRequestExperienceStatus().equals(RequestStatus.ACCEPT)&&exp.getExperienceEndDate().isBefore(now)){
             return true;
         } else{
             return false;

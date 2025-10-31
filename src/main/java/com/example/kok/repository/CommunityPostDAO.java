@@ -54,12 +54,12 @@ public class CommunityPostDAO {
         communityPostMapper.decreaseLikesCount(id);
     }
 
-    //    멤버 아이디로 게시물 최근 3개 조회
+    //    회원 아이디로 게시물 조회
     public List<PostDTO> findPostById(Long id) {
         return communityPostMapper.selectPostById(id);
     };
 
-//    멤버 별 게시글 갯수
+//    회원 별 게시글 갯수
     public int findPostsCountByMemberId(Long memberId) {
         return communityPostMapper.selectPostsCountByMemberId(memberId);
     }

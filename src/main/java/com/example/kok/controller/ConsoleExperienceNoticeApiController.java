@@ -4,7 +4,6 @@ import com.example.kok.auth.CustomUserDetails;
 import com.example.kok.dto.*;
 import com.example.kok.enumeration.RequestStatus;
 import com.example.kok.enumeration.Status;
-import com.example.kok.repository.RequestExperienceDAO;
 import com.example.kok.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +23,8 @@ public class ConsoleExperienceNoticeApiController implements ConsoleExperienceNo
     private final ConsoleExperienceDetailService experienceDetailService;
     private final ConsoleExperienceApplicationService consoleExperienceApplicationService;
     private final EvaluationService evaluationService;
-    private final RequestExperienceDAO requestExperienceDAO;
 
-    //    공고 목록
+//    공고 목록
     @GetMapping("/list/{page}")
     public ResponseEntity<ConsoleExperienceNoticeCriteriaDTO> list(
                                   @PathVariable("page") int page,
@@ -122,8 +120,7 @@ public class ConsoleExperienceNoticeApiController implements ConsoleExperienceNo
     @GetMapping("/isEvalOk")
     public ResponseEntity<Boolean> isEvalOk(@RequestParam("experienceNoticeId") Long experienceNoticeId,
                                             @RequestParam("memberId") Long memberId) {
-        Long requestExperienceId=requestExperienceDAO.findId(memberId, experienceNoticeId);
-        boolean result=consoleExperienceApplicationService.isEvalOk(experienceNoticeId, memberId, requestExperienceId);
+        boolean result=consoleExperienceApplicationService.isEvalOk(experienceNoticeId, memberId);
         return ResponseEntity.ok(result);
     }
 
