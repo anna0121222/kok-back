@@ -43,7 +43,7 @@ public class InternRestController implements InternRestControllerDocs {
     public String profile(Long companyId){
         CompanyProfileFileDTO profile=companyProfileFileDAO.findFileByCompanyId(companyId);
         if(profile==null){
-            return "/images/main-page/image.png";
+            return "/images/member/profile.png";
         }
         internNoticeService.setPreSignedUrl(profile);
         return profile.getFilePath();
@@ -139,10 +139,10 @@ public class InternRestController implements InternRestControllerDocs {
         return false;
     }
 
-    //    간편지원 완료
+//    간편지원 완료
     @PostMapping("/request")
     public void requestIntern(@RequestBody RequestInternDTO requestInternDTO,
-                              @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+                                  @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 //        System.out.println(requestInternDTO);
 //        System.out.println(customUserDetails.getId());
         RequestInternDTO request=new RequestInternDTO();

@@ -119,7 +119,6 @@ public class CompanyServiceImpl implements CompanyService {
 
 
         return adminCompanyDTO;
-    }
 
 
     //    기업 목록

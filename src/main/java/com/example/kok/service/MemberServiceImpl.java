@@ -1,6 +1,5 @@
 package com.example.kok.service;
 
-import com.example.kok.common.exception.MemberNotFoundException;
 import com.example.kok.domain.MemberVO;
 import com.example.kok.dto.*;
 import com.example.kok.repository.*;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -161,7 +159,6 @@ public class MemberServiceImpl implements MemberService {
         userMemberDTO.setPosts(posts);
 
         return userMemberDTO;
-    }
 
     @Override
     public List<RequestExperienceDTO> findRequestExperienceByMemberId(Long memberId) {
@@ -292,7 +289,6 @@ public class MemberServiceImpl implements MemberService {
 
             member.setFilePath(preSignedUrl);
         }
-//        memberProfile.setMemberProfileUrl(preSignedUrl);
         return memberProfile;
     }
 
